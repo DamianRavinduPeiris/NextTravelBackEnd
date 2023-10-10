@@ -39,5 +39,6 @@ build/
 .idea/
 *.iml/
 UserAuthService/.mvn/
+UserAuthService/.mvn/wrapper/
 UserAuthService/target/
 
