@@ -1,5 +1,6 @@
 package com.damian.vs.entity;
 
+import com.damian.vs.entity.superentity.SuperEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Vehicle {
+public class Vehicle implements SuperEntity {
     @Id
     private String vehicleId;
     private String packageId;
