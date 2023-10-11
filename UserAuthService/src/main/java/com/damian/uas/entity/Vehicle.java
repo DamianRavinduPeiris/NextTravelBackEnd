@@ -2,6 +2,7 @@ package com.damian.uas.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,8 @@ import lombok.NoArgsConstructor;
 public class Vehicle {
     @Id
     private String vehicleId;
-    private String packageId;
+    @ManyToOne
+    private Packages packageId;
     private String vehicleBrand;
     private String vehicleCategory;
     private String fuelType;

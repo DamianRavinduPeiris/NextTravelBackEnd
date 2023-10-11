@@ -1,5 +1,6 @@
 package com.damian.hs.entity;
 
+import com.damian.uas.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,4 +29,5 @@ public class Hotel {
     private double hotelFee;
     private String cancellationCriteria;
     private String remarks;
+
 }

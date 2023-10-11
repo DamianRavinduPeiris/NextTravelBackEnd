@@ -1,8 +1,11 @@
 package com.damian.gs.service.impl;
 
 import com.damian.gs.dto.GuideDTO;
+import com.damian.gs.repo.GuideRepo;
 import com.damian.gs.response.Response;
 import com.damian.gs.service.custom.GuideService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class GuideServiceImpl implements GuideService {
+    @Autowired
+    private GuideRepo guideRepo;
+    @Autowired
+    private Response response;
+    @Autowired
+    private ModelMapper mapper;
     @Override
     public ResponseEntity<Response> add(GuideDTO guideDTO) {
         return null;
@@ -22,6 +31,7 @@ public class GuideServiceImpl implements GuideService {
 
     @Override
     public ResponseEntity<Response> search(String s) {
+
         return null;
     }
 
