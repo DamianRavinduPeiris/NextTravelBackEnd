@@ -13,17 +13,14 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Configuration
 @EnableWebSecurity
 public class FilterConfig {
-    @Autowired
-    private final JWTInterface jwtInterface;
+
     @Autowired
     private HandlerExceptionResolver handlerExceptionResolver;
-    public FilterConfig(JWTInterface jwtInterface) {
-        this.jwtInterface = jwtInterface;
-    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.addFilterBefore(new ReqFilter(jwtInterface, handlerExceptionResolver), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new ReqFilter( handlerExceptionResolver), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

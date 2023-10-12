@@ -31,7 +31,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        /*Handling re-directed requests. -Start.*/
+        /*Handling re-directed requests. -Start.*//*
         if (request.getHeader("jwtToken") != null) {
             String jwtToken = request.getHeader("jwtToken");
             System.out.println("JWT Header : "+jwtToken);
@@ -47,7 +47,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             }
 
         }
-        /*Handling re-directed requests. -End.*/
+        *//*Handling re-directed requests. -End.*/
         System.out.println("This is JWTAuthFilter."+request.getHeader("Authorization"));
         String authHeader = request.getHeader("Authorization");//Extracting the header.
         String jwtToken = null;

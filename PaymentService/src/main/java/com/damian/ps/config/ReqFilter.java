@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,20 +24,20 @@ import java.io.IOException;
 
 
 public class ReqFilter extends OncePerRequestFilter {
-    private final JWTInterface jwtInterface;
+
 
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Autowired
-    public ReqFilter(JWTInterface jwtInterface, HandlerExceptionResolver handlerExceptionResolver) {
-        this.jwtInterface = jwtInterface;
+    public ReqFilter( HandlerExceptionResolver handlerExceptionResolver) {
+
 
 
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
         System.out.println("This is ReqFilter.This is the Auth header : " + authHeader);
@@ -45,16 +46,17 @@ public class ReqFilter extends OncePerRequestFilter {
             return;
 
         }
+        /*Transferring all incoming requests to the UAS for Auth purposes.*/
         RestTemplate restTemplate = new RestTemplate();
         String redirectUrl = "http://localhost:8080/isAuthenticated?jwtToken=" + authHeader.substring(7);
         HttpHeaders httpHeaders = new HttpHeaders();
        httpHeaders.set("Authorization", "Bearer "+authHeader.substring(7));
         HttpEntity<String> requestEntity = new HttpEntity<>(httpHeaders);
-        ResponseEntity<String> responseEntity = null;
+        ResponseEntity<Boolean> responseEntity = null;
         try {
-            responseEntity = restTemplate.exchange(redirectUrl, HttpMethod.GET, requestEntity, String.class);
+            responseEntity = restTemplate.exchange(redirectUrl, HttpMethod.GET, requestEntity, Boolean.class);
             System.out.println("Response from UAS : " + responseEntity.getBody());
-            if(responseEntity.getBody().equals("true")){
+            if(responseEntity.getBody().booleanValue()){
                 filterChain.doFilter(request, response);
 
             }else{

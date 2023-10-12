@@ -16,11 +16,10 @@ public class HandleRequests {
     @Autowired
     private UserDetailsService userDetailsService;
     @GetMapping(path = "/isAuthenticated",params = "jwtToken")
-    public  String isAuthenticated( @RequestParam("jwtToken") String jwtToken){
+    public  boolean isAuthenticated( @RequestParam("jwtToken") String jwtToken){
         System.out.println("jwtToken = " + jwtToken);
         UserDetails user = userDetailsService.loadUserByUsername(jwtService.extractUsername(jwtToken));
-        if(jwtService.validateToken(jwtToken,user))return "true";
-        else return "false";
+        return jwtService.validateToken(jwtToken,user);
 
 
     }

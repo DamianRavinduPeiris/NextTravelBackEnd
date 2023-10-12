@@ -52,9 +52,9 @@ public class User implements UserDetails, SuperEntity {
     private String remarks;
     @NonNull
     private String userImageLocation;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> packageDetailsIDList;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> paymentsIDList;
 
     @Override
