@@ -53,6 +53,9 @@ public class PackageDetailsDTO implements SuperDTO, Serializable {
     @Positive(message = "Value cannot be negative.")
     private double paidValue;
     private String remarks;
+    @NotNull(message = "User ID cannot be null.")
+    @NotBlank(message = "User ID cannot be blank.")
+    private String userId;
 
 
 }

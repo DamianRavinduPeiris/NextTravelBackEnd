@@ -52,10 +52,10 @@ public class User implements UserDetails, SuperEntity {
     private String remarks;
     @NonNull
     private String userImageLocation;
-    @OneToMany(mappedBy = "userId", targetEntity = PackageDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<PackageDetails> packageDetailsList;
-    @OneToMany(mappedBy = "userId", targetEntity = Payments.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Payments> paymentsList;
+    @ElementCollection
+    private List<String> packageDetailsIDList;
+    @ElementCollection
+    private List<String> paymentsIDList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

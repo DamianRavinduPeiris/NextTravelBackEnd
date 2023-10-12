@@ -1,8 +1,8 @@
 package com.damian.gs.dto;
 
 
-
 import com.damian.gs.enums.GENDER;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,7 @@
 package com.damian.hs.dto;
 
-import com.damian.hs.dto.superdto.SuperDTO;
+
+import com.damian.uas.dto.superdto.SuperDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 
-public class HotelDTO implements SuperDTO, Serializable {
+public class HotelDTO implements SuperDTO, Serializable, com.damian.hs.dto.superdto.SuperDTO {
     @Valid
     @NotNull(message = "Hotel Id cannot be null.")
     @NotBlank(message = "Hotel Id cannot be blank.")

@@ -1,9 +1,6 @@
 package com.damian.hs.entity;
 
-import com.damian.uas.entity.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +12,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String hotelId;
-    private String packageId;
+    private  String packageId;
     private String hotelName;
     private String hotelCategory;
     private String hotelLocation;
@@ -29,5 +25,4 @@ public class Hotel {
     private double hotelFee;
     private String cancellationCriteria;
     private String remarks;
-
 }
