@@ -31,21 +31,35 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(request.getContextPath());
-        System.out.println(request.getRequestURI());
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getServletPath());
+        /*Handling re-directed requests. -Start.*/
+        if (request.getHeader("jwtToken") != null) {
+            String jwtToken = request.getHeader("jwtToken");
+            System.out.println("JWT Header : "+jwtToken);
+            System.out.println("Feign client : " + request.getParameter("jwtToken"));
+            UserDetails user = userDetailsService.loadUserByUsername(JWTService.extractUsername(jwtToken));
+            if (JWTService.validateToken(jwtToken, user)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                System.out.println("auth status: " + authToken.isAuthenticated());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                return;
 
+            }
 
-
+        }
+        /*Handling re-directed requests. -End.*/
+        System.out.println("This is JWTAuthFilter."+request.getHeader("Authorization"));
         String authHeader = request.getHeader("Authorization");//Extracting the header.
         String jwtToken = null;
         String userName;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("No token found! - This is UAS.");
             filterChain.doFilter(request, response);
             return;
         }
         jwtToken = authHeader.substring(7);
+
+
         try {
             userName = JWTService.extractUsername(jwtToken);
             System.out.println("Username : " + userName);
