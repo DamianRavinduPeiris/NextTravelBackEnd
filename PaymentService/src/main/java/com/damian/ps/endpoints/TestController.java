@@ -1,4 +1,4 @@
-package com.damian.ps.ednpoints;
+package com.damian.ps.endpoints;
 
 
 import org.springframework.web.bind.annotation.*;
