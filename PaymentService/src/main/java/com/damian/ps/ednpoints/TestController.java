@@ -1,16 +1,17 @@
 package com.damian.ps.ednpoints;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/test")
 @CrossOrigin
 public class TestController {
-    @GetMapping(path = "/hello")
-    public String hello() {
-        return " ane hutto";
+    @PostMapping(path = "/hello", params = {"vehicleID", "packageID"})
+    public String hello(@RequestParam("vehicleID")String vehicleID, @RequestParam("packageID")String packageID) {
+        return " yay";
     }
 }
+
+
+
