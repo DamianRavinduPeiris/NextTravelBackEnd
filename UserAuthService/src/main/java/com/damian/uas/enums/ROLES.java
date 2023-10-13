@@ -1,5 +1,5 @@
 package com.damian.uas.enums;
 
 public enum ROLES {
-    ADMIN, USER
+    GUIDE_ADMIN,HOTEL_ADMIN,PACKAGE_ADMIN,PAYMENT_ADMIN,VEHICLE_ADMIN, USER
 }
