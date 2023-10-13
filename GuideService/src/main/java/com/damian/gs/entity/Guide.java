@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document(collation = "guide")
+@Document(collection = "guide")
 public class Guide implements SuperEntity {
     @Id
     private String guideId;
