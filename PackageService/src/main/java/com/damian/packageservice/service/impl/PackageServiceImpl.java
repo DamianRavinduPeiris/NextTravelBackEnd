@@ -50,7 +50,7 @@ public class PackageServiceImpl implements PackageService {
     public ResponseEntity<Response> search(String s) {
         Optional<Packages> pack = packageRepo.findById(s);
         if (pack.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Package retrieved successfully!", pack.get());
+            return createAndSendResponse(HttpStatus.FOUND.value(), "Package retrieved successfully!", mapper.map(pack.get(), PackagesDTO.class));
 
 
         }

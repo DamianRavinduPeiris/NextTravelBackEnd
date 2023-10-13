@@ -57,7 +57,7 @@ public class HotelServiceImpl implements HotelService {
     public ResponseEntity<Response> search(String s) {
         Optional<Hotel> hotel = hotelRepo.findById(s);
         if (hotel.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Hotel Successfully retrieved!", hotel.get());
+            return createAndSendResponse(HttpStatus.FOUND.value(), "Hotel Successfully retrieved!",mapper.map(hotel.get(),Hotel.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
