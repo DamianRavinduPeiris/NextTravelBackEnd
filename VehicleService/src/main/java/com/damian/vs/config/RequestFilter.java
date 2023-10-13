@@ -1,6 +1,5 @@
-package com.damian.ps.config;
+package com.damian.vs.config;
 
-import com.damian.ps.interfaces.JWTInterface;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,13 +22,13 @@ import java.io.IOException;
 @Component
 
 
-public class ReqFilter extends OncePerRequestFilter {
+public class RequestFilter extends OncePerRequestFilter {
 
 
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Autowired
-    public ReqFilter( HandlerExceptionResolver handlerExceptionResolver) {
+    public RequestFilter(HandlerExceptionResolver handlerExceptionResolver) {
 
 
 
@@ -40,13 +39,15 @@ public class ReqFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
-        System.out.println("This is ReqFilter.This is the Auth header : " + authHeader);
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+        System.out.println("This is RequestFilter.This is the Auth header : " + authHeader);
+        if (authHeader == null || !authHeader.startsWith("Bearer ") ||authHeader.substring(7).isBlank()) {
+            System.out.println("Request Abandoned! ");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Authorization header is missing!");
             return;
 
         }
-        /*Transferring all incoming requests to the UAS for Auth purposes.*/
+        System.out.println("RequestFilter : Auth header is present!");
+        /*Transferring all incoming requests to the User Auth Server for Auth purposes.*/
         RestTemplate restTemplate = new RestTemplate();
         String redirectUrl = "http://localhost:8080/isAuthenticated?jwtToken=" + authHeader.substring(7);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -56,8 +57,11 @@ public class ReqFilter extends OncePerRequestFilter {
         try {
             responseEntity = restTemplate.exchange(redirectUrl, HttpMethod.GET, requestEntity, Boolean.class);
             System.out.println("Response from UAS : " + responseEntity.getBody());
+            System.out.println("Here's the boolean : "+responseEntity.getBody().booleanValue());
             if(responseEntity.getBody().booleanValue()){
+                System.out.println("This is RequestFilter. Authenticated successfully!");
                 filterChain.doFilter(request, response);
+
 
             }else{
                 throw new RuntimeException("Invalid token!");

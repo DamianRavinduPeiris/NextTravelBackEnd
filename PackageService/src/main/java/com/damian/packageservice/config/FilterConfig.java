@@ -1,6 +1,5 @@
-package com.damian.ps.config;
+package com.damian.packageservice.config;
 
-import com.damian.ps.interfaces.JWTInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

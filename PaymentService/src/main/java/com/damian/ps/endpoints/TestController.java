@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/test")
 @CrossOrigin
 public class TestController {
-    @PostMapping(path = "/hello", params = {"vehicleID", "packageID"})
-    public String hello(@RequestParam("vehicleID")String vehicleID, @RequestParam("packageID")String packageID) {
+    @GetMapping(path = "/hello")
+    public String hello() {
         return " yay";
     }
 }
