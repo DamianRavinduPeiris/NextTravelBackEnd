@@ -48,6 +48,10 @@ public class HotelDTO implements SuperDTO, Serializable {
     @NotBlank(message = "Phone cannot be blank.")
     @Size(min = 10, max = 10, message = "Phone must be 10 characters.")
     private String hotelContact2;
+    private double fullBoardWithACLuxuryRoomDouble;
+    private double halfBoardWithACLuxuryRoomDouble;
+    private double fullBoardWithACLuxuryRoomTriple;
+    private double halfBoardWithACLuxuryRoomTriple;
     private boolean isPetsAllowed;
     @Positive(message = "Value cannot be negative.")
     private double hotelFee;
