@@ -41,16 +41,17 @@ public class JWTService {
         return claimsResolver.apply(claims);
     }
     public String generateToken(Map<String,Object> claims, UserDetails userDetails) {
-        return Jwts.builder().
-                setClaims(claims).
-                setSubject(userDetails.getUsername()).
-                signWith(getSecretKey(), SignatureAlgorithm.HS256).
-                setIssuedAt(new Date(System.currentTimeMillis())). //Setting the time of issue of the token.
-                        setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)). //Setting the expiration time of the token.
-                        compact();
+        long expirationTimeInMilliseconds = System.currentTimeMillis() + 100L * 365L * 24L * 60L * 60L * 1000L; // 100 years
 
-
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(expirationTimeInMilliseconds))
+                .compact();
     }
+
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }

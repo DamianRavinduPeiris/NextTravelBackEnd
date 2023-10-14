@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("api/v1/hotels")
 @RestController
+@RequestMapping("api/v1/guide")
 @CrossOrigin
-
-public class HotelController {
+public class GuideController {
     @Autowired
     private DemoInterface demoInterface;
 
-
-
+    @GetMapping(path = "/getGuide")
+    public String getGuide(){
+        return demoInterface.getGuide();
+    }
 }

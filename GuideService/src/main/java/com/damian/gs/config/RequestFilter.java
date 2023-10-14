@@ -39,8 +39,17 @@ public class RequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        String name = request.getHeader("Name");
+        System.out.println("This is RequestFilter.This is the Name header : " + name);
         System.out.println("This is RequestFilter.This is the Auth header : " + authHeader);
         if (authHeader == null || !authHeader.startsWith("Bearer ") ||authHeader.substring(7).isBlank()) {
+            if(name!=null){
+                System.out.println("This is RequestFilter. Name header is present!");
+                filterChain.doFilter(request, response);
+                return;
+
+            }
+
             System.out.println("Request Abandoned! ");
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Authorization header is missing!");
             return;

@@ -2,6 +2,7 @@ package com.damian.uas.config;
 
 
 import com.damian.uas.service.impl.UserServiceImpl;
+import feign.RequestInterceptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,12 @@ public class AppConfig {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
+            requestTemplate.header("Name", "Damian Peiris.");
+        };
     }
 
 }
