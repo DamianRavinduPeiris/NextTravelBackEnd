@@ -37,7 +37,7 @@ public class AppConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
         return requestTemplate -> {
-            requestTemplate.header("Name", "Damian Peiris.");
+            requestTemplate.header("Name", "Sexy Banana!");
         };
     }
 
