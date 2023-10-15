@@ -50,7 +50,7 @@ public class PackageServiceImpl implements PackageService {
     public ResponseEntity<Response> search(String s) {
         Optional<Packages> pack = packageRepo.findById(s);
         if (pack.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Package retrieved successfully!", mapper.map(pack.get(), PackagesDTO.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "Package retrieved successfully!", mapper.map(pack.get(), PackagesDTO.class));
 
 
         }
@@ -79,7 +79,7 @@ public class PackageServiceImpl implements PackageService {
 
 
         });
-        return createAndSendResponse(HttpStatus.FOUND.value(), "Packages retrieved successfully!", packagesDTOS);
+        return createAndSendResponse(HttpStatus.OK.value(), "Packages retrieved successfully!", packagesDTOS);
 
     }
 
@@ -88,5 +88,49 @@ public class PackageServiceImpl implements PackageService {
         response.setMessage(msg);
         response.setData(data);
         return new ResponseEntity<>(response, HttpStatus.valueOf(statusCode));
+    }
+
+    @Override
+    public ResponseEntity<Response> addHotel(String packageID, String hotelID) {
+        Optional<Packages> pack = packageRepo.findById(packageID);
+        if(pack.isPresent()){
+            pack.get().getHotelIdList().add(hotelID);
+            return createAndSendResponse(HttpStatus.OK.value(),"Hotel added successfully!",null);
+
+        }
+        throw new RuntimeException("Package does not exist!");
+    }
+
+    @Override
+    public ResponseEntity<Response> deleteHotel(String packageID, String hotelID) {
+        Optional<Packages> pack = packageRepo.findById(packageID);
+        if(pack.isPresent()){
+            pack.get().getHotelIdList().remove(hotelID);
+            return createAndSendResponse(HttpStatus.OK.value(),"Hotel deleted successfully!",null);
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Package does not exist!",null);
+    }
+
+    @Override
+    public ResponseEntity<Response> addVehicle(String packageID, String vehicleID) {
+        Optional<Packages> pack = packageRepo.findById(packageID);
+        if(pack.isPresent()){
+            pack.get().getVehicleIdList().add(vehicleID);
+            return createAndSendResponse(HttpStatus.OK.value(),"Vehicle added successfully!",null);
+
+        }
+        throw new RuntimeException("Package does not exist!");
+    }
+
+    @Override
+    public ResponseEntity<Response> deleteVehicle(String packageID, String vehicleID) {
+        Optional<Packages> pack = packageRepo.findById(packageID);
+        if(pack.isPresent()){
+            pack.get().getVehicleIdList().remove(vehicleID);
+            return createAndSendResponse(HttpStatus.OK.value(),"Vehicle deleted successfully!",null);
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Package does not exist!",null);
     }
 }

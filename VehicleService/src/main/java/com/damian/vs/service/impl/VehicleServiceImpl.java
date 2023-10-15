@@ -52,7 +52,7 @@ public class VehicleServiceImpl implements VehicleService {
     public ResponseEntity<Response> search(String s) {
         Optional<Vehicle> vehcicle = vehicleRepo.findById(s);
         if (vehcicle.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Vehicle successfully retrieved!", mapper.map(vehcicle.get(), VehicleDTO.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "Vehicle successfully retrieved!", mapper.map(vehcicle.get(), VehicleDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Vehicle not found", null);
@@ -82,7 +82,7 @@ public class VehicleServiceImpl implements VehicleService {
             vehicleDTOS.add(mapper.map(vehicle, VehicleDTO.class));
 
         });
-        return createAndSendResponse(HttpStatus.FOUND.value(), "Vehicles successfully retrieved!", vehicleDTOS);
+        return createAndSendResponse(HttpStatus.OK.value(), "Vehicles successfully retrieved!", vehicleDTOS);
     }
 
     @Override

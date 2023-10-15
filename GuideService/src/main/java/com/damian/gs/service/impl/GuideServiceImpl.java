@@ -54,7 +54,7 @@ public class GuideServiceImpl implements GuideService {
     public ResponseEntity<Response> search(String s) {
         Optional<Guide> guide = guideRepo.findById(s);
         if (guide.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Guide retrieved successfully!", mapper.map(guide.get(), GuideDTO.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "Guide retrieved successfully!", mapper.map(guide.get(), GuideDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Guide not found!", null);
@@ -84,7 +84,7 @@ public class GuideServiceImpl implements GuideService {
             guideDTOList.add(mapper.map(guide, GuideDTO.class));
 
         });
-        return createAndSendResponse(HttpStatus.FOUND.value(), "Guides retrieved successfully!", guideDTOList);
+        return createAndSendResponse(HttpStatus.OK.value(), "Guides retrieved successfully!", guideDTOList);
 
     }
 

@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public ResponseEntity<Response> search(String userId) {
         Optional<User> user = userRepo.findById(userId);
         if (user.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "User successfully retrieved!", mapper.map(user.get(), UserDTO.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "User successfully retrieved!", mapper.map(user.get(), UserDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             usersList.add(mapper.map(user, UserDTO.class));
 
         });
-        return createAndSendResponse(HttpStatus.FOUND.value(), "Users successfully retrieved!", usersList);
+        return createAndSendResponse(HttpStatus.OK.value(), "Users successfully retrieved!", usersList);
 
     }
 

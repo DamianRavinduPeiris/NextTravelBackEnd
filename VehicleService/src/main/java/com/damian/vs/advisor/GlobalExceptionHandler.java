@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Response> handleExceptions(Exception exception) {
-        response.setMessage("Server threw an exception : " + exception.getLocalizedMessage());
+        response.setMessage("Vehicle Server threw an exception : " + exception.getLocalizedMessage());
         response.setData(null);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 

@@ -27,6 +27,7 @@ public class HotelServiceImpl implements HotelService {
     private HotelRepo hotelRepo;
     @Autowired
     private Response response;
+
     @GetMapping(path = "/returnFuck")
     public String getFuck(){
         return "Fuuuuuuuck!";
@@ -34,9 +35,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public ResponseEntity<Response> add(HotelDTO hotelDTO) {
-        if (search(hotelDTO.getHotelId()).getBody() == null) {
+        if (search(hotelDTO.getHotelId()).getBody().getData() == null) {
             hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
-            return createAndSendResponse(HttpStatus.CREATED.value(), "Hotel Successfully saved!", null);
+            return createAndSendResponse(HttpStatus.CREATED.value(), "Hotel Successfully saved!", true);
 
         }
         throw new RuntimeException("Hotel Already Exists!");
@@ -57,7 +58,7 @@ public class HotelServiceImpl implements HotelService {
     public ResponseEntity<Response> search(String s) {
         Optional<Hotel> hotel = hotelRepo.findById(s);
         if (hotel.isPresent()) {
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Hotel Successfully retrieved!",mapper.map(hotel.get(),Hotel.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully retrieved!",mapper.map(hotel.get(),HotelDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
@@ -84,7 +85,7 @@ public class HotelServiceImpl implements HotelService {
                 hotelDTOS.add(mapper.map(hotel, HotelDTO.class));
 
             });
-            return createAndSendResponse(HttpStatus.FOUND.value(), "Hotels Successfully retrieved!", hotelDTOS);
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotels Successfully retrieved!", hotelDTOS);
 
         }
         throw new RuntimeException("No Hotels Found!");
@@ -95,6 +96,9 @@ public class HotelServiceImpl implements HotelService {
     public ResponseEntity<Response> createAndSendResponse(int statusCode, String msg, Object data) {
         response.setMessage(msg);
         response.setData(data);
+        System.out.println("Status Code : "+statusCode);
+        System.out.println("Sent : "+HttpStatus.valueOf(statusCode));
+
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(statusCode));
 
     }

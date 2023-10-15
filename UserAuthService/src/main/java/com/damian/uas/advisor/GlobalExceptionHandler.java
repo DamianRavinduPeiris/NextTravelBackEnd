@@ -20,7 +20,9 @@ public class GlobalExceptionHandler {
     private Response response;
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Response>handleExceptions(Exception exception){
-        response.setMessage("Server threw an exception : "+exception.getLocalizedMessage());
+        System.out.println("Real exception : "+exception.getLocalizedMessage());
+
+        response.setMessage("Auth Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(null);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
