@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public ResponseEntity<Response> add(UserDTO userDTO) {
         if (search(userDTO.getUserId()).getBody().getData() == null) {
             userDTO.setUserPassword(passwordEncoder.encode(userDTO.getUserPassword()));
+
             userRepo.save(mapper.map(userDTO, User.class));
             return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved and JWT successfully generated!", jwtService.generateToken(mapper.map(userDTO, User.class)));
 
@@ -138,5 +139,23 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } catch (IOException e) {
             throw new RuntimeException("An error occurred while saving the image :" + e.getLocalizedMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<Response> getUserByUserName(String username,String password) {
+        Optional<User> user = userRepo.findByUserName(username);
+        if(user.isPresent()){
+            UserDTO userDTO = mapper.map(user.get(), UserDTO.class);
+            userDTO.setAuthenticated(passwordValidator(password,user.get().getUserPassword()));
+            return createAndSendResponse(HttpStatus.OK.value(),"User successfully retrieved!",userDTO);
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"User not found!",null);
+    }
+
+    @Override
+    public Boolean passwordValidator(String password,String storedHashedPassword) {
+        return passwordEncoder.matches(password, storedHashedPassword);
+
     }
 }

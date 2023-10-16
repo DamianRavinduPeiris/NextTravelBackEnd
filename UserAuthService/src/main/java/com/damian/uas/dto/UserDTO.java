@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Data
 public class UserDTO implements SuperDTO, Serializable {
     @Valid
-    private ROLES userRole;
+    private String userRole;
     @NotNull(message = "User Id cannot be null.")
     private String userId;
     @NotBlank(message = "Name cannot be blank.")
@@ -58,4 +58,5 @@ public class UserDTO implements SuperDTO, Serializable {
     @NotBlank(message = "Remarks cannot be blank.")
     private String remarks;
     private String userImageLocation;
+    private boolean isAuthenticated;
 }

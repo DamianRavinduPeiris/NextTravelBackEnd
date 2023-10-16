@@ -6,6 +6,7 @@ import com.damian.uas.enums.GENDER;
 import com.damian.uas.enums.ROLES;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,6 @@ import java.util.List;
 
 public class User implements UserDetails, SuperEntity {
     @NonNull
-    @Enumerated(EnumType.STRING)
     private ROLES userRole;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -52,6 +52,8 @@ public class User implements UserDetails, SuperEntity {
     private String remarks;
     @NonNull
     private String userImageLocation;
+    @NonNull
+    private boolean isAuthenticated;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> packageDetailsIDList;
     @ElementCollection(fetch = FetchType.EAGER)
