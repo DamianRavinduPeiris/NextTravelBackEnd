@@ -91,4 +91,14 @@ public class VehicleServiceImpl implements VehicleService {
         response.setData(data);
         return new ResponseEntity<>(response, HttpStatus.valueOf(statusCode));
     }
+
+    @Override
+    public ResponseEntity<Response> deleteAllVehicles(List<String> vehiclesIDList) {
+        System.out.println("VehicleServiceIMPL : "+vehiclesIDList);
+        vehiclesIDList.forEach((vID)->{
+            vehicleRepo.deleteById(vID);
+
+        });
+        return createAndSendResponse(HttpStatus.OK.value(), "Vehicles successfully deleted!", null);
+    }
 }

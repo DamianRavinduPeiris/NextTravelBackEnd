@@ -102,4 +102,14 @@ public class HotelServiceImpl implements HotelService {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(statusCode));
 
     }
+
+    @Override
+    public ResponseEntity<Response> deleteAllHotels(List<String> hotelIDList) {
+        System.out.println("HotelServiceIMPL : "+hotelIDList);
+        hotelIDList.forEach((hID)->{
+            hotelRepo.deleteById(hID);
+
+        });
+        return createAndSendResponse(HttpStatus.OK.value(), "Hotels Successfully deleted!", null);
+    }
 }

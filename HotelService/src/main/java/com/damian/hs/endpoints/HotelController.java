@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("")
 @CrossOrigin(origins = "http://localhost:8080")
@@ -46,5 +48,12 @@ public class HotelController {
         return hotelService.getAll();
 
     }
+    @DeleteMapping(path = "/deleteAllHotels",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deleteAllHotels(@RequestBody List<String> hotelIDs){
+        return hotelService.deleteAllHotels(hotelIDs);
+
+    }
+
+
 
 }

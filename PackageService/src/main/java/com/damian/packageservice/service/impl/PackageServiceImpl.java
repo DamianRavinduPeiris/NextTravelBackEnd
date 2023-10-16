@@ -93,9 +93,9 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public ResponseEntity<Response> addHotel(String packageID, String hotelID) {
         Optional<Packages> pack = packageRepo.findById(packageID);
-        if(pack.isPresent()){
+        if (pack.isPresent()) {
             pack.get().getHotelIdList().add(hotelID);
-            return createAndSendResponse(HttpStatus.OK.value(),"Hotel added successfully!",null);
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotel added successfully!", null);
 
         }
         throw new RuntimeException("Package does not exist!");
@@ -104,20 +104,20 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public ResponseEntity<Response> deleteHotel(String packageID, String hotelID) {
         Optional<Packages> pack = packageRepo.findById(packageID);
-        if(pack.isPresent()){
+        if (pack.isPresent()) {
             pack.get().getHotelIdList().remove(hotelID);
-            return createAndSendResponse(HttpStatus.OK.value(),"Hotel deleted successfully!",null);
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotel deleted successfully!", null);
 
         }
-        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Package does not exist!",null);
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Package does not exist!", null);
     }
 
     @Override
     public ResponseEntity<Response> addVehicle(String packageID, String vehicleID) {
         Optional<Packages> pack = packageRepo.findById(packageID);
-        if(pack.isPresent()){
+        if (pack.isPresent()) {
             pack.get().getVehicleIdList().add(vehicleID);
-            return createAndSendResponse(HttpStatus.OK.value(),"Vehicle added successfully!",null);
+            return createAndSendResponse(HttpStatus.OK.value(), "Vehicle added successfully!", null);
 
         }
         throw new RuntimeException("Package does not exist!");
@@ -126,11 +126,32 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public ResponseEntity<Response> deleteVehicle(String packageID, String vehicleID) {
         Optional<Packages> pack = packageRepo.findById(packageID);
-        if(pack.isPresent()){
+        if (pack.isPresent()) {
             pack.get().getVehicleIdList().remove(vehicleID);
-            return createAndSendResponse(HttpStatus.OK.value(),"Vehicle deleted successfully!",null);
+            return createAndSendResponse(HttpStatus.OK.value(), "Vehicle deleted successfully!", null);
 
         }
-        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Package does not exist!",null);
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Package does not exist!", null);
+    }
+
+    @Override
+    public List<String> getHotelsList(String packageID) {
+        Optional<Packages> pack = packageRepo.findById(packageID);
+        if (pack.isPresent()) {
+            System.out.println("ServiceIMPL HIDS : "+pack.get().getHotelIdList());
+            return pack.get().getHotelIdList();
+        }
+        throw new RuntimeException("Package does not exist!");
+    }
+
+    @Override
+    public List<String> getVehiclesList(String packageID) {
+        Optional<Packages> pack = packageRepo.findById(packageID);
+        if (pack.isPresent()) {
+            System.out.println("ServiceIMPL VIDS : "+pack.get().getVehicleIdList());
+            return pack.get().getVehicleIdList();
+
+        }
+        throw new RuntimeException("Package does not exist!");
     }
 }
