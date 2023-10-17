@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin
 public class UploadController {
     @Autowired
     private UploadService uploadService;
@@ -17,5 +17,9 @@ public class UploadController {
         return uploadService.handleUploads(imageFile);
 
 
+    }
+    @GetMapping(path = "/hello")
+    public String hello(){
+        return "Hello";
     }
 }
