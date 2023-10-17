@@ -2,7 +2,6 @@ package com.damian.uas.config;
 
 
 import com.damian.uas.service.impl.UserServiceImpl;
-import feign.RequestInterceptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Configuration
 public class AppConfig {
     @Autowired
@@ -34,11 +34,6 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-    @Bean
-    public RequestInterceptor requestInterceptor() {
-        return requestTemplate -> {
-            requestTemplate.header("Name", "Sexy Banana!");
-        };
-    }
+
 
 }

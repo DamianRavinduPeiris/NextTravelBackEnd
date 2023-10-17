@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Response>handleExceptions(Exception exception){
         System.out.println("Real exception : "+exception.getLocalizedMessage());
+        response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
         response.setMessage("Auth Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(null);
@@ -30,6 +31,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({UsernameNotFoundException.class})
     public ResponseEntity<Response>handleExceptions(UsernameNotFoundException exception){
+        response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setMessage("Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(null);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -42,7 +44,7 @@ public class GlobalExceptionHandler {
         exception.getBindingResult().getFieldErrors().forEach((fieldError -> {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }));
-
+        response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setMessage("Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(errors);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

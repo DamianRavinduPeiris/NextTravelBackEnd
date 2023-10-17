@@ -85,6 +85,7 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public ResponseEntity<Response> createAndSendResponse(int statusCode, String msg, Object data) {
+        response.setStatusCode(statusCode);
         response.setMessage(msg);
         response.setData(data);
         return new ResponseEntity<>(response, HttpStatus.valueOf(statusCode));

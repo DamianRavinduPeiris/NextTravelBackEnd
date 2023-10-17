@@ -86,6 +86,7 @@ public class PaymentsServiceImpl implements PaymentService {
 
     @Override
     public ResponseEntity<Response> createAndSendResponse(int code, String message, Object data) {
+        response.setStatusCode(code);
         response.setMessage(message);
         response.setData(data);
         return new ResponseEntity<>(response, HttpStatus.valueOf(code));

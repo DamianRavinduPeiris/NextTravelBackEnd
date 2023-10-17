@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class Response {
+    private int statusCode;
     private String message;
     private Object data;
 }

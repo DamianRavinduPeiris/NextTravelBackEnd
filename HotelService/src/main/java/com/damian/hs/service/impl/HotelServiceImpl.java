@@ -94,6 +94,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public ResponseEntity<Response> createAndSendResponse(int statusCode, String msg, Object data) {
+        response.setStatusCode(statusCode);
         response.setMessage(msg);
         response.setData(data);
         System.out.println("Status Code : "+statusCode);

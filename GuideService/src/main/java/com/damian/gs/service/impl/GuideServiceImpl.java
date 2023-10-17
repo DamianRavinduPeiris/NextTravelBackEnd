@@ -90,6 +90,7 @@ public class GuideServiceImpl implements GuideService {
 
     @Override
     public ResponseEntity<Response> createAndSendResponse(int statusCode, String msg, Object data) {
+        response.setStatusCode(statusCode);
         response.setMessage(msg);
         response.setData(data);
         return new ResponseEntity<Response>(response, HttpStatusCode.valueOf(statusCode));
