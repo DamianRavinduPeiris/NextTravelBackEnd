@@ -1,13 +1,13 @@
-package com.damian.us;
+package com.damian.usr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UploadServiceApplication {
+public class UploadServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UploadServiceApplication.class, args);
+        SpringApplication.run(UploadServerApplication.class, args);
     }
 
 }

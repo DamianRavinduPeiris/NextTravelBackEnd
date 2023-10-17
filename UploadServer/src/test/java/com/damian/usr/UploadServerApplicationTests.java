@@ -1,10 +1,10 @@
-package com.damian.us;
+package com.damian.usr;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UploadServiceApplicationTests {
+class UploadServerApplicationTests {
 
     @Test
     void contextLoads() {

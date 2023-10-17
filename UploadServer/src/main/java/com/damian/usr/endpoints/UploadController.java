@@ -1,6 +1,6 @@
-package com.damian.us.endpoints;
+package com.damian.usr.endpoints;
 
-import com.damian.us.service.custom.UploadService;
+import com.damian.usr.service.custom.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
