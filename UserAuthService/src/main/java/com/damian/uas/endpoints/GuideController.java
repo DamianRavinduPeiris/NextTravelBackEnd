@@ -3,6 +3,7 @@ package com.damian.uas.endpoints;
 import com.damian.uas.dto.GuideDTO;
 import com.damian.uas.interfaces.GuideInterface;
 import com.damian.uas.response.Response;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,11 @@ public class GuideController {
     @Autowired
     private GuideInterface guideInterface;
     @PostMapping(path = "/saveGuide",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response> saveGuide(@RequestBody GuideDTO guideDTO){
+    public ResponseEntity<Response> saveGuide(@RequestBody @Valid GuideDTO guideDTO){
         return guideInterface.saveGuide(guideDTO);
     }
     @PutMapping(path = "/updateGuide",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response> updateGuide(@RequestBody GuideDTO guideDTO){
+    public ResponseEntity<Response> updateGuide(@RequestBody @Valid GuideDTO guideDTO){
         return guideInterface.updateGuide(guideDTO);
     }
     @GetMapping(path = "/getGuide",params = "guideID",produces = MediaType.APPLICATION_JSON_VALUE)
