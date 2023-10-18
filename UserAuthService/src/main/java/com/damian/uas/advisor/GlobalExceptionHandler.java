@@ -19,27 +19,27 @@ public class GlobalExceptionHandler {
     @Autowired
     private Response response;
     @ExceptionHandler({Exception.class})
-    public ResponseEntity<Response>handleExceptions(Exception exception){
+    public Response handleExceptions(Exception exception){
         System.out.println("Real exception : "+exception.getLocalizedMessage());
         response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
         response.setMessage("Auth Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(null);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return response;
 
     }
 
     @ExceptionHandler({UsernameNotFoundException.class})
-    public ResponseEntity<Response>handleExceptions(UsernameNotFoundException exception){
+    public Response handleExceptions(UsernameNotFoundException exception){
         response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setMessage("Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(null);
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return response;
 
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<Response>handleExceptions(MethodArgumentNotValidException exception){
+    public Response handleExceptions(MethodArgumentNotValidException exception){
         HashMap<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach((fieldError -> {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
         response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setMessage("Server threw an exception : "+exception.getLocalizedMessage());
         response.setData(errors);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return response;
 
     }
 

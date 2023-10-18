@@ -16,8 +16,6 @@ import java.io.Serializable;
 
 public class HotelDTO implements SuperDTO, Serializable {
     @Valid
-    @NotNull(message = "Hotel Id cannot be null.")
-    @NotBlank(message = "Hotel Id cannot be blank.")
     private String hotelId;
     @NotNull(message = "Package Id cannot be null.")
     @NotBlank(message = "Package Id cannot be blank.")

@@ -19,18 +19,18 @@ public class GlobalExceptionHandler {
     private Response response;
 
     @ExceptionHandler({Exception.class})
-    public ResponseEntity<Response> handleExceptions(Exception exception) {
+    public Response handleExceptions(Exception exception) {
         response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setMessage("Hotel Server threw an exception : " + exception.getLocalizedMessage());
         response.setData(null);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return response;
 
     }
 
     /*Validation Exception Handling.*/
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<Response> handleExceptions(MethodArgumentNotValidException exception) {
+    public Response handleExceptions(MethodArgumentNotValidException exception) {
         HashMap<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach((fieldError -> {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 
         response.setMessage("Server threw an exception : " + exception.getLocalizedMessage());
         response.setData(errors);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return response;
 
     }
 
