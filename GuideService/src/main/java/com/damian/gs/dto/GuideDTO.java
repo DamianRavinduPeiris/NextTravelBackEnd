@@ -38,12 +38,11 @@ public class GuideDTO implements SuperDTO, Serializable {
     @NotNull(message = "Phone cannot be null.")
     @NotBlank(message = "Phone cannot be blank.")
     @Size(min = 10, max = 10, message = "Phone must be 10 characters.")
-    private long guideContact;
+    private String guideContact;
     private String guideImageLocation;
     private String guideNICImageLocation;
     private String guideIDImageLocation;
     private String guideExperience;
-    @Positive(message = "Value cannot be negative.")
-    private double manDayValue;
+    private String manDayValue;
     private String remarks;
 }

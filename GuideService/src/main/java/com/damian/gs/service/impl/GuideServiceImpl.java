@@ -95,4 +95,16 @@ public class GuideServiceImpl implements GuideService {
         response.setData(data);
         return new ResponseEntity<Response>(response, HttpStatusCode.valueOf(statusCode));
     }
+
+    @Override
+    public ResponseEntity<Response> searchByGuideName(String guideName) {
+        Optional<Guide> guide = guideRepo.findByGuideName(guideName);
+        if(guide.isPresent()){
+            System.out.println("Guide Name : "+guideName);
+            System.out.println("Guide : "+guide.get());
+            return createAndSendResponse(HttpStatus.OK.value(),"Guide retrieved successfully!",mapper.map(guide.get(),GuideDTO.class));
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Guide not found!",null);
+    }
 }

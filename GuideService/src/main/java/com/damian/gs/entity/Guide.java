@@ -20,11 +20,11 @@ public class Guide implements SuperEntity {
     private String guideAddress;
     private int guideAge;
     private GENDER guideGender;
-    private long guideContact;
+    private String guideContact;
     private String guideImageLocation;
     private String guideNICImageLocation;
     private String guideIDImageLocation;
     private String guideExperience;
-    private double manDayValue;
+    private String manDayValue;
     private String remarks;
 }

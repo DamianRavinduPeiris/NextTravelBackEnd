@@ -36,6 +36,10 @@ public class GuideController {
     public ResponseEntity<Response> getAllGuides(){
         return guideService.getAll();
     }
+    @GetMapping(path = "/getGuideByGuideName",produces = MediaType.APPLICATION_JSON_VALUE,params="guideName")
+    public ResponseEntity<Response> getGuideBuGuideName(@RequestParam("guideName")String guideName){
+        return guideService.searchByGuideName(guideName);
+    }
 
 
 

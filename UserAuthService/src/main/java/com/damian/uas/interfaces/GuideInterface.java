@@ -19,4 +19,6 @@ public interface GuideInterface {
     public ResponseEntity<Response> deleteGuide(@RequestParam("guideID")String guideID);
     @GetMapping(path = "/getAllGuides",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> getAllGuides();
+    @GetMapping(path = "/getGuideByGuideName",produces = MediaType.APPLICATION_JSON_VALUE,params="guideName")
+    public ResponseEntity<Response> getGuideBuGuideName(@RequestParam("guideName")String guideName);
 }
