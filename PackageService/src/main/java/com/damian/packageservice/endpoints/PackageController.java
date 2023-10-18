@@ -72,8 +72,8 @@ public class PackageController {
         List<String> hotelsList = packageService.getHotelsList(packageID);
         List<String> vehiclesList = packageService.getVehiclesList(packageID);
         packageService.delete(packageID);
-        System.out.println("Hotels List : "+hotelsList);
-        System.out.println("Vehicles List : "+vehiclesList);
+        System.out.println("Hotels List : " + hotelsList);
+        System.out.println("Vehicles List : " + vehiclesList);
 
         hotelInterface.deleteAllHotels(hotelsList);
         return vehicleInterface.deleteAllVehicles(vehiclesList);
@@ -83,6 +83,11 @@ public class PackageController {
     @GetMapping(path = "/getAllPackages", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> getAllPackages() {
         return packageService.getAll();
+    }
+
+    @GetMapping(path = "/getAllPackageIDs")
+    public List<String> getAllPackageIDs() {
+        return packageService.getPackageIDs();
     }
 
 }

@@ -15,4 +15,5 @@ public interface PackageService extends SuperService<PackagesDTO,String> {
     ResponseEntity<Response>deleteVehicle(String packageID,String vehicleID);
     List<String> getHotelsList(String packageID);
     List<String>getVehiclesList(String packageID);
+    List<String>getPackageIDs();
 }

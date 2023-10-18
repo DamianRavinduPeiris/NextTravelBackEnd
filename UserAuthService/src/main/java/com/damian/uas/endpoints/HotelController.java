@@ -4,6 +4,7 @@ import com.damian.uas.dto.HotelDTO;
 import com.damian.uas.hello.DemoInterface;
 import com.damian.uas.interfaces.HotelInterface;
 import com.damian.uas.response.Response;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class HotelController {
     @Autowired
     private HotelInterface hotelInterface;
     @PostMapping(path = "/save",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response> saveHotel(@RequestBody HotelDTO hotelDTO){
+    public ResponseEntity<Response> saveHotel(@RequestBody @Valid  HotelDTO hotelDTO){
         System.out.println("hotelDTO"+hotelDTO.toString());
         return hotelInterface.saveHotel(hotelDTO);
 

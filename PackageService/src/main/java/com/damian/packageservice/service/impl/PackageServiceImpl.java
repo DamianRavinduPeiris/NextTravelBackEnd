@@ -155,4 +155,9 @@ public class PackageServiceImpl implements PackageService {
         }
         throw new RuntimeException("Package does not exist!");
     }
+
+    @Override
+    public List<String> getPackageIDs() {
+        return  packageRepo.getPackageIDs();
+    }
 }

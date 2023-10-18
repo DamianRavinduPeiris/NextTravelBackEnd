@@ -38,6 +38,7 @@ public class HotelDTO implements SuperDTO, Serializable, com.damian.hs.dto.super
     @NotBlank(message = "Hotel Address cannot be blank.")
     @Size(min = 3, max = 50, message = "Hotel Address must be between 3 and 50 characters.")
     private String hotelLocationWithCoordinates;
+    private String hotelImageLocation;
     @Email(message = "Email should be valid.")
     private String hotelContactEmail;
     @NotNull(message = "Phone cannot be null.")
@@ -59,4 +60,5 @@ public class HotelDTO implements SuperDTO, Serializable, com.damian.hs.dto.super
     @NotBlank(message = "This field cannot be blank.")
     private String cancellationCriteria;
     private String remarks;
+
 }

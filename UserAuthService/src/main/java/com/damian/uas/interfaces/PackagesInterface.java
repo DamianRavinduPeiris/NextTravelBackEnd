@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @FeignClient("package-service")
 public interface PackagesInterface {
     @PostMapping(path = "/savePackage", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,4 +21,6 @@ public interface PackagesInterface {
     public ResponseEntity<Response> delete(@RequestParam("packageID") String packageID);
     @GetMapping(path = "/getAllPackages", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> getAllPackages();
+    @GetMapping(path = "/getAllPackageIDs")
+    public List<String> getAllPackageIDs();
 }
