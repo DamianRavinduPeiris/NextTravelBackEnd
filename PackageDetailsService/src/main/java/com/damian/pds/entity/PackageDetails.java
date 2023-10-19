@@ -17,6 +17,8 @@ public class PackageDetails {
     private String packageDetailsId;
     private String packageId;
     private String packageCategory;
+    private String hotelId;
+    private String vehicleId;
     private Date startDate;
     private Date endDate;
     private int noOfDays;
@@ -26,6 +28,7 @@ public class PackageDetails {
     private int totalHeadCount;
     private  boolean petsStatus;
     private  boolean guideStatus;
+    private String guideId;
     private  double totalPackageValue;
     private  String userId;
     private double paidValue;
