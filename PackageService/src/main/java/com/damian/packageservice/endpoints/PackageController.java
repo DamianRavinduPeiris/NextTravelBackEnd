@@ -90,4 +90,14 @@ public class PackageController {
         return packageService.getPackageIDs();
     }
 
+
+    @PutMapping(path = "/updateHotelPackageId",produces = MediaType.APPLICATION_JSON_VALUE,params = {"oldPackageId","newPackageId","hotelId"})
+    public ResponseEntity<Response>updateHotelPackageId(@RequestParam("oldPackageId")String oldPackageId,@RequestParam("newPackageId")String newPackageId,@RequestParam("hotelId")String hotelId){
+        return packageService.updateHotelPackageID(oldPackageId,newPackageId,hotelId);
+    }
+    @PutMapping(path = "/updateVehiclePackageId",produces = MediaType.APPLICATION_JSON_VALUE,params = {"oldPackageId","newPackageId","vehicleId"})
+    public ResponseEntity<Response>updateVehiclePackageId(@RequestParam("oldPackageId")String oldPackageId,@RequestParam("newPackageId")String newPackageId,@RequestParam("vehicleId")String vehicleId){
+        return packageService.updateVehiclePackageID(oldPackageId,newPackageId,vehicleId);
+    }
+
 }

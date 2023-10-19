@@ -23,8 +23,8 @@ public class VehicleController {
 
     @PostMapping(path = "/saveVehicle", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> addVehicle(@RequestBody VehicleDTO vehicleDTO) {
-        vehicleService.add(vehicleDTO);
-        return packageInterface.saveVehicleID(vehicleDTO.getPackageId(), vehicleDTO.getVehicleId());
+        return vehicleService.add(vehicleDTO);
+
 
     }
 
@@ -57,6 +57,11 @@ public class VehicleController {
     @DeleteMapping(path = "/deleteAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> deleteAllVehicles(@RequestBody List<String> vehiclesIDList) {
         return vehicleService.deleteAllVehicles(vehiclesIDList);
+    }
+    @GetMapping(path = "/getVehicleByBrand",params = "vehicleBrand",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getVehicleByBrand(@RequestParam("vehicleBrand")String vehicleBrand){
+        return vehicleService.getVehicleByBrand(vehicleBrand);
+
     }
 
 }

@@ -160,4 +160,40 @@ public class PackageServiceImpl implements PackageService {
     public List<String> getPackageIDs() {
         return  packageRepo.getPackageIDs();
     }
+
+    @Override
+    public ResponseEntity<Response> updateHotelPackageID(String oldPackageId, String newPackageId, String hotelId) {
+        Optional<Packages> oldPackage = packageRepo.findById(oldPackageId);
+        if(oldPackage.isPresent()){
+            oldPackage.get().getHotelIdList().remove(hotelId);
+            Optional<Packages> newPackage = packageRepo.findById(newPackageId);
+            if(newPackage.isPresent()){
+            newPackage.get().getHotelIdList().add(hotelId);
+                return createAndSendResponse(HttpStatus.OK.value(),"Hotel and Package updated successfully!",null);
+
+            }
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"New Package does not exist!",null);
+
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Old Package does not exist!",null);
+
+
+    }
+
+    @Override
+    public ResponseEntity<Response> updateVehiclePackageID(String oldPackageId, String newPackageId, String vehicleId) {
+        Optional<Packages> oldPackage = packageRepo.findById(oldPackageId);
+        if(oldPackage.isPresent()){
+            oldPackage.get().getVehicleIdList().remove(vehicleId);
+            Optional<Packages> newPackage = packageRepo.findById(newPackageId);
+            if(newPackage.isPresent()){
+                newPackage.get().getVehicleIdList().add(vehicleId);
+                return createAndSendResponse(HttpStatus.OK.value(),"Vehicle and Package updated successfully!",null);
+
+            }
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"New Package does not exist!",null);
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Old Package does not exist!",null);
+    }
 }

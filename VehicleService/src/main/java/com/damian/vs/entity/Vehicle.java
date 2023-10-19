@@ -1,6 +1,8 @@
 package com.damian.vs.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Vehicle {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String vehicleId;
     private String packageId;
     private String vehicleBrand;
@@ -24,7 +27,7 @@ public class Vehicle {
     private String vehicleType;
     private String transmissionType;
     private String driversName;
-    private long driversContactNumber;
+    private String driversContactNumber;
     private String driversLicenseImageLocation;
     private String remarks;
 

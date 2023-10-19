@@ -2,6 +2,7 @@ package com.damian.vs.service.impl;
 
 import com.damian.vs.dto.VehicleDTO;
 import com.damian.vs.entity.Vehicle;
+import com.damian.vs.interfaces.PackageInterface;
 import com.damian.vs.repo.VehicleRepo;
 import com.damian.vs.response.Response;
 import com.damian.vs.service.custom.VehicleService;
@@ -25,11 +26,15 @@ public class VehicleServiceImpl implements VehicleService {
     private Response response;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private PackageInterface packageInterface;
 
     @Override
     public ResponseEntity<Response> add(VehicleDTO vehicleDTO) {
         if (search(vehicleDTO.getVehicleId()).getBody().getData() == null) {
             vehicleRepo.save(mapper.map(vehicleDTO, Vehicle.class));
+            VehicleDTO vehicleDTO1 = (VehicleDTO) getVehicleByBrand(vehicleDTO.getVehicleBrand()).getBody().getData();
+            packageInterface.saveVehicleID(vehicleDTO.getPackageId(), vehicleDTO1.getVehicleId());
             return createAndSendResponse(HttpStatus.CREATED.value(), "Vehicle successfully saved!", null);
 
         }
@@ -44,7 +49,14 @@ public class VehicleServiceImpl implements VehicleService {
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Vehicle does not exist!", null);
 
         }
-        vehicleRepo.save(mapper.map(vehicleDTO, Vehicle.class));
+        Optional<Vehicle> vehicle = vehicleRepo.findById(vehicleDTO.getVehicleId());
+        if (vehicle.isPresent()) {
+            packageInterface.updateVehiclePackageId(vehicle.get().getPackageId(), vehicleDTO.getPackageId(), vehicleDTO.getVehicleId());
+            vehicleRepo.save(mapper.map(vehicleDTO, Vehicle.class));
+
+
+        }
+
         return createAndSendResponse(HttpStatus.OK.value(), "Vehicle successfully updated!", null);
     }
 
@@ -95,11 +107,21 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public ResponseEntity<Response> deleteAllVehicles(List<String> vehiclesIDList) {
-        System.out.println("VehicleServiceIMPL : "+vehiclesIDList);
-        vehiclesIDList.forEach((vID)->{
+        System.out.println("VehicleServiceIMPL : " + vehiclesIDList);
+        vehiclesIDList.forEach((vID) -> {
             vehicleRepo.deleteById(vID);
 
         });
         return createAndSendResponse(HttpStatus.OK.value(), "Vehicles successfully deleted!", null);
+    }
+
+    @Override
+    public ResponseEntity<Response> getVehicleByBrand(String vehicleBrand) {
+        Optional<Vehicle> vehicle = vehicleRepo.findByVehicleBrand(vehicleBrand);
+        if (vehicle.isPresent()) {
+            return createAndSendResponse(HttpStatus.OK.value(), "Vehicle Retrieved Successfully!", mapper.map(vehicle, VehicleDTO.class));
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Vehicle not found!", null);
     }
 }

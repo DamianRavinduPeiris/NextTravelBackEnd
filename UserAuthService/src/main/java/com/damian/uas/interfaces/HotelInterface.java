@@ -21,4 +21,6 @@ public interface HotelInterface {
     public ResponseEntity<Response>deleteHotel(@RequestParam("hotelID")String hotelID );
     @GetMapping(path = "/getAllHotels",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response>getAllHotels();
+    @GetMapping(path = "/getHotelByHotelName",params = "hotelName",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getHotelByName(@RequestParam("hotelName")String hotelName);
 }

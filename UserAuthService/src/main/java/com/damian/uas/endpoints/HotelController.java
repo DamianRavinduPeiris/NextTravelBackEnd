@@ -43,6 +43,11 @@ public class HotelController {
         return hotelInterface.getAllHotels();
 
     }
+    @GetMapping(path = "/getHotelByName",params = "hotelName",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getHotelByNName(@RequestParam("hotelName") String hotelName){
+        return hotelInterface.getHotelByName(hotelName);
+
+    }
 
 
 

@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface VehicleService extends SuperService<VehicleDTO,String> {
     ResponseEntity<Response>deleteAllVehicles(List<String>vehiclesIDList);
+    ResponseEntity<Response>getVehicleByBrand(String vehicleBrand);
+
 }

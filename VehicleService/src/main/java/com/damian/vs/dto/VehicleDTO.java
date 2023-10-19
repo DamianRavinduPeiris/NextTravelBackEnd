@@ -20,8 +20,6 @@ import java.io.Serializable;
 
 public class VehicleDTO implements SuperDTO, Serializable {
     @Valid
-    @NotNull(message = "Vehicle ID cannot be null")
-    @NotBlank(message = "Vehicle ID cannot be blank")
     private String vehicleId;
     @NotNull(message = "Package ID cannot be null")
     @NotBlank(message = "Package ID cannot be blank")
@@ -51,8 +49,7 @@ public class VehicleDTO implements SuperDTO, Serializable {
     @NotBlank(message = "Driver's name cannot be blank")
     private String driversName;
     @Size(min = 10, max = 10, message = "Driver's contact number must be 10 digits")
-    @Positive(message = "Driver's contact number cannot be negative")
-    private long driversContactNumber;
+    private String driversContactNumber;
     private String driversLicenseImageLocation;
     private String remarks;
 

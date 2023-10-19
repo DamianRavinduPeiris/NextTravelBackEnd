@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +31,12 @@ public class HotelServiceImpl implements HotelService {
     private PackageInterface packageInterface;
 
 
-
     @Override
     public ResponseEntity<Response> add(HotelDTO hotelDTO) {
         if (search(hotelDTO.getHotelId()).getBody().getData() == null) {
             hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
             HotelDTO dto = (HotelDTO) findByHotelName(hotelDTO.getHotelName()).getBody().getData();
-            packageInterface.saveHotelID(hotelDTO.getPackageId(),dto.getHotelId());
+            packageInterface.saveHotelID(hotelDTO.getPackageId(), dto.getHotelId());
             return createAndSendResponse(HttpStatus.CREATED.value(), "Hotel Successfully saved!", true);
 
         }
@@ -51,8 +49,15 @@ public class HotelServiceImpl implements HotelService {
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
 
         }
-        hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
+        Optional<Hotel> hotelDto = hotelRepo.findById(hotelDTO.getHotelId());
+        if (hotelDto.isPresent()) {
+            packageInterface.updateHotelPackageId(hotelDto.get().getPackageId(), hotelDTO.getPackageId(), hotelDTO.getHotelId());
+            hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
+
+
+        }
         return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully updated!", null);
+
 
     }
 
@@ -60,7 +65,7 @@ public class HotelServiceImpl implements HotelService {
     public ResponseEntity<Response> search(String s) {
         Optional<Hotel> hotel = hotelRepo.findById(s);
         if (hotel.isPresent()) {
-            return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully retrieved!",mapper.map(hotel.get(),HotelDTO.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully retrieved!", mapper.map(hotel.get(), HotelDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
@@ -99,8 +104,8 @@ public class HotelServiceImpl implements HotelService {
         response.setStatusCode(statusCode);
         response.setMessage(msg);
         response.setData(data);
-        System.out.println("Status Code : "+statusCode);
-        System.out.println("Sent : "+HttpStatus.valueOf(statusCode));
+        System.out.println("Status Code : " + statusCode);
+        System.out.println("Sent : " + HttpStatus.valueOf(statusCode));
 
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(statusCode));
 
@@ -108,8 +113,8 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public ResponseEntity<Response> deleteAllHotels(List<String> hotelIDList) {
-        System.out.println("HotelServiceIMPL : "+hotelIDList);
-        hotelIDList.forEach((hID)->{
+        System.out.println("HotelServiceIMPL : " + hotelIDList);
+        hotelIDList.forEach((hID) -> {
             hotelRepo.deleteById(hID);
 
         });
@@ -119,8 +124,8 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public ResponseEntity<Response> findByHotelName(String hotelName) {
         Optional<Hotel> hotel = hotelRepo.findByHotelName(hotelName);
-        if(hotel.isPresent()){
-            return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully retrieved!",mapper.map(hotel.get(),HotelDTO.class));
+        if (hotel.isPresent()) {
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully retrieved!", mapper.map(hotel.get(), HotelDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);

@@ -19,4 +19,6 @@ public interface VehicleInterface {
     public ResponseEntity<Response> deleteVehicle(@RequestParam("vehicleID") String vehicleID);
     @GetMapping(path = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> getAllVehicles();
+    @GetMapping(path = "/getVehicleByBrand",params = "/vehicleBrand",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getVehicleByBrand(@RequestParam("vehicleBrand")String vehicleBrand);
 }
