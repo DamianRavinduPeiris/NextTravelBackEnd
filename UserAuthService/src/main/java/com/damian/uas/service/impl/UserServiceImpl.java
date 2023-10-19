@@ -55,13 +55,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         }
 
-        throw new RuntimeException("User Already exists!");
+        return createAndSendResponse(HttpStatus.CONFLICT.value(), "User already exists!", null);
     }
 
     @Override
     public ResponseEntity<Response> update(UserDTO userDTO) {
         if (search(userDTO.getUserId()).getBody().getData() == null) {
-            throw new RuntimeException("User not found!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
 
         }
         userRepo.save(mapper.map(userDTO, User.class));
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public ResponseEntity<Response> delete(String s) {
         if (search(s).getBody().getData() == null) {
-            throw new RuntimeException("User not found!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
 
         }
         userRepo.deleteById(s);

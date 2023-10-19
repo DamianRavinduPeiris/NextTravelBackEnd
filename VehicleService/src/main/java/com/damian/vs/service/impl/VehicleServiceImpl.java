@@ -33,7 +33,7 @@ public class VehicleServiceImpl implements VehicleService {
             return createAndSendResponse(HttpStatus.CREATED.value(), "Vehicle successfully saved!", null);
 
         }
-        throw new RuntimeException("Vehicle already exists!");
+        return createAndSendResponse(HttpStatus.CONFLICT.value(), "Vehicle already exists!", null);
 
 
     }
@@ -41,7 +41,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public ResponseEntity<Response> update(VehicleDTO vehicleDTO) {
         if (search(vehicleDTO.getVehicleId()).getBody().getData() == null) {
-            throw new RuntimeException("Vehicle does not exist!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Vehicle does not exist!", null);
 
         }
         vehicleRepo.save(mapper.map(vehicleDTO, Vehicle.class));
@@ -61,7 +61,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public ResponseEntity<Response> delete(String s) {
         if (search(s).getBody().getData() == null) {
-            throw new RuntimeException("Vehicle does not exist!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Vehicle does not exist!", null);
 
         }
         vehicleRepo.deleteById(s);
@@ -74,7 +74,7 @@ public class VehicleServiceImpl implements VehicleService {
 
         List<Vehicle> vehicles = vehicleRepo.findAll();
         if (vehicles.isEmpty()) {
-            throw new RuntimeException("No vehicles found!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "No vehicles found!", null);
 
         }
         List<VehicleDTO> vehicleDTOS = new ArrayList<>();

@@ -33,7 +33,7 @@ public class PackageServiceImpl implements PackageService {
             return createAndSendResponse(HttpStatus.CREATED.value(), "Package saved successfully!", null);
 
         }
-        throw new RuntimeException("Package already exists!");
+        return createAndSendResponse(HttpStatus.CONFLICT.value(), "Package already exists!", null);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PackageServiceImpl implements PackageService {
             return createAndSendResponse(HttpStatus.OK.value(), "Package updated successfully!", null);
         }
 
-        throw new RuntimeException("Package does not exist!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Package not found!", null);
     }
 
     @Override
@@ -64,14 +64,14 @@ public class PackageServiceImpl implements PackageService {
             return createAndSendResponse(HttpStatus.OK.value(), "Package deleted successfully!", null);
 
         }
-        throw new RuntimeException("Package does not exist!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Package not found!", null);
     }
 
     @Override
     public ResponseEntity<Response> getAll() {
         List<Packages> packages = packageRepo.findAll();
         if (packages.isEmpty()) {
-            throw new RuntimeException("No packages found!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "No packages found!", null);
         }
         List<PackagesDTO> packagesDTOS = new ArrayList<>();
         packages.forEach((packages1) -> {
@@ -99,7 +99,7 @@ public class PackageServiceImpl implements PackageService {
             return createAndSendResponse(HttpStatus.OK.value(), "Hotel added successfully!", null);
 
         }
-        throw new RuntimeException("Package does not exist!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Package does not exist!", null);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class PackageServiceImpl implements PackageService {
             return createAndSendResponse(HttpStatus.OK.value(), "Vehicle added successfully!", null);
 
         }
-        throw new RuntimeException("Package does not exist!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Package does not exist!", null);
     }
 
     @Override

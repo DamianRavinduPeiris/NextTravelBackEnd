@@ -2,6 +2,7 @@ package com.damian.hs.service.impl;
 
 import com.damian.hs.dto.HotelDTO;
 import com.damian.hs.entity.Hotel;
+import com.damian.hs.interfaces.PackageInterface;
 import com.damian.hs.repo.HotelRepo;
 import com.damian.hs.response.Response;
 import com.damian.hs.service.custom.HotelService;
@@ -27,26 +28,27 @@ public class HotelServiceImpl implements HotelService {
     private HotelRepo hotelRepo;
     @Autowired
     private Response response;
+    @Autowired
+    private PackageInterface packageInterface;
 
-    @GetMapping(path = "/returnFuck")
-    public String getFuck(){
-        return "Fuuuuuuuck!";
-    }
+
 
     @Override
     public ResponseEntity<Response> add(HotelDTO hotelDTO) {
         if (search(hotelDTO.getHotelId()).getBody().getData() == null) {
             hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
+            HotelDTO dto = (HotelDTO) findByHotelName(hotelDTO.getHotelName()).getBody().getData();
+            packageInterface.saveHotelID(hotelDTO.getPackageId(),dto.getHotelId());
             return createAndSendResponse(HttpStatus.CREATED.value(), "Hotel Successfully saved!", true);
 
         }
-        throw new RuntimeException("Hotel Already Exists!");
+        return createAndSendResponse(HttpStatus.CONFLICT.value(), "Hotel Already Exists!", false);
     }
 
     @Override
     public ResponseEntity<Response> update(HotelDTO hotelDTO) {
         if (search(hotelDTO.getHotelId()).getBody().getData() == null) {
-            throw new RuntimeException("Hotel Not Found!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
 
         }
         hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
@@ -67,7 +69,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public ResponseEntity<Response> delete(String s) {
         if (search(s).getBody().getData() == null) {
-            throw new RuntimeException("Hotel Not Found!");
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
 
         }
         hotelRepo.deleteById(s);
@@ -88,7 +90,7 @@ public class HotelServiceImpl implements HotelService {
             return createAndSendResponse(HttpStatus.OK.value(), "Hotels Successfully retrieved!", hotelDTOS);
 
         }
-        throw new RuntimeException("No Hotels Found!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotels Not Found!", null);
 
     }
 
@@ -112,5 +114,15 @@ public class HotelServiceImpl implements HotelService {
 
         });
         return createAndSendResponse(HttpStatus.OK.value(), "Hotels Successfully deleted!", null);
+    }
+
+    @Override
+    public ResponseEntity<Response> findByHotelName(String hotelName) {
+        Optional<Hotel> hotel = hotelRepo.findByHotelName(hotelName);
+        if(hotel.isPresent()){
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully retrieved!",mapper.map(hotel.get(),HotelDTO.class));
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Hotel Not Found!", null);
     }
 }

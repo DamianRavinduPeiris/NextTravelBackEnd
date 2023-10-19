@@ -34,7 +34,7 @@ public class PaymentsServiceImpl implements PaymentService {
 
 
         }
-        throw new RuntimeException("Payment already exists");
+        return createAndSendResponse(HttpStatus.CONFLICT.value(), "Payment already exists!", null);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PaymentsServiceImpl implements PaymentService {
         }
 
 
-        throw new RuntimeException("Payment not found!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Payment not found!", null);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class PaymentsServiceImpl implements PaymentService {
         }
 
 
-        throw new RuntimeException("Payment not found!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Payment not found!", null);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class PaymentsServiceImpl implements PaymentService {
             return createAndSendResponse(HttpStatus.OK.value(), "Payments successfully retrieved!", paymentsDTOS);
 
         }
-        throw new RuntimeException("No payments found!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Payments not found!", null);
     }
 
     @Override

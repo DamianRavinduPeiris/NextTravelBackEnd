@@ -35,7 +35,7 @@ public class GuideServiceImpl implements GuideService {
             return createAndSendResponse(HttpStatus.CREATED.value(), "Guide saved successfully!", null);
 
         }
-        throw new RuntimeException("Guide already exists!");
+        return createAndSendResponse(HttpStatus.CONFLICT.value(), "Guide already exists!", null);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class GuideServiceImpl implements GuideService {
 
 
         }
-        throw new RuntimeException("Guide not found!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Guide not found!", null);
 
     }
 
@@ -69,7 +69,7 @@ public class GuideServiceImpl implements GuideService {
             guideRepo.deleteById(s);
             return createAndSendResponse(HttpStatus.OK.value(), "Guide deleted successfully!", null);
         }
-        throw new RuntimeException("Guide not found!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Guide not found!", null);
     }
 
     @Override
