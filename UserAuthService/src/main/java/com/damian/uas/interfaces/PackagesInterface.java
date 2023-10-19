@@ -23,4 +23,7 @@ public interface PackagesInterface {
     public ResponseEntity<Response> getAllPackages();
     @GetMapping(path = "/getAllPackageIDs")
     public List<String> getAllPackageIDs();
+
+    @GetMapping(path = "/getPackageByCategory",produces = MediaType.APPLICATION_JSON_VALUE,params = "category")
+    public ResponseEntity<Response>getPackageByCategory(@RequestParam("category")String category) ;
 }

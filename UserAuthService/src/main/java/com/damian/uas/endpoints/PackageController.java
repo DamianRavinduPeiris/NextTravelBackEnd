@@ -45,4 +45,9 @@ public class PackageController {
     public List<String>getAllPackageIDs(){
         return packagesInterface.getAllPackageIDs();
     }
+    @GetMapping(path = "/getPackageByCategory",produces = MediaType.APPLICATION_JSON_VALUE,params = "category")
+    public ResponseEntity<Response>getPackageByCategory(@RequestParam("category")String category){
+        return packagesInterface.getPackageByCategory(category);
+
+    }
 }

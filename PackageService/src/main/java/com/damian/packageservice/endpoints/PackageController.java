@@ -99,5 +99,9 @@ public class PackageController {
     public ResponseEntity<Response>updateVehiclePackageId(@RequestParam("oldPackageId")String oldPackageId,@RequestParam("newPackageId")String newPackageId,@RequestParam("vehicleId")String vehicleId){
         return packageService.updateVehiclePackageID(oldPackageId,newPackageId,vehicleId);
     }
+    @GetMapping(path = "/getPackageByCategory",produces = MediaType.APPLICATION_JSON_VALUE,params = "category")
+    public ResponseEntity<Response>getPackageByCategory(@RequestParam("category")String category){
+        return packageService.getPackageByCategory(category);
+    }
 
 }

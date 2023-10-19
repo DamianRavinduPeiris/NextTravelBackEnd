@@ -18,4 +18,5 @@ public interface PackageService extends SuperService<PackagesDTO,String> {
     List<String>getPackageIDs();
     ResponseEntity<Response> updateHotelPackageID(String oldPackageId,String newPackageId,String hotelId);
     ResponseEntity<Response> updateVehiclePackageID(String oldPackageId,String newPackageId,String vehicleId);
+    ResponseEntity<Response>getPackageByCategory(String category);
 }

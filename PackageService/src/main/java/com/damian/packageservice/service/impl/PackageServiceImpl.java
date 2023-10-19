@@ -196,4 +196,15 @@ public class PackageServiceImpl implements PackageService {
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Old Package does not exist!",null);
     }
+
+    @Override
+    public ResponseEntity<Response> getPackageByCategory(String category) {
+        Optional<Packages> pack = packageRepo.findByPackageCategory(category);
+        if(pack.isPresent()){
+            return createAndSendResponse(HttpStatus.OK.value(),"Package retrieved successfully!",mapper.map(pack.get(),PackagesDTO.class));
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Package does not exist!",null);
+
+    }
 }
