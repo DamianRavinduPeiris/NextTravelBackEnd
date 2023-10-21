@@ -33,6 +33,7 @@ public class PackageController {
     }
     @DeleteMapping(path = "/delete",produces = MediaType.APPLICATION_JSON_VALUE,params = "packageID")
     public ResponseEntity<Response>delete(@RequestParam("packageID")String packageID){
+        System.out.println("packageID = " + packageID);
         return packagesInterface.delete(packageID);
 
     }

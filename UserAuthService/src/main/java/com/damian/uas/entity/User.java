@@ -22,7 +22,7 @@ import java.util.List;
 
 public class User implements UserDetails, SuperEntity {
     @NonNull
-    private ROLES userRole;
+    private String userRole;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @NonNull
@@ -61,7 +61,7 @@ public class User implements UserDetails, SuperEntity {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(userRole.name()));
+        return List.of(new SimpleGrantedAuthority(userRole));
     }
 
     @Override

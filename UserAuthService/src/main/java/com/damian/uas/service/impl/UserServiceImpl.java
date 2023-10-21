@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +52,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             userDTO.setUserPassword(passwordEncoder.encode(userDTO.getUserPassword()));
 
             userRepo.save(mapper.map(userDTO, User.class));
-            return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved and JWT successfully generated!", jwtService.generateToken(mapper.map(userDTO, User.class)));
+            HashMap<String,Object> userRoles= new HashMap<>();
+            userRoles.put("userRole",userDTO.getUserRole());
+            return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved and JWT successfully generated!", jwtService.generateToken(userRoles,mapper.map(userDTO, User.class)));
 
         }
 

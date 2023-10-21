@@ -59,6 +59,7 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public ResponseEntity<Response> delete(String s) {
+        System.out.println("Package ID : "+s);
         if (search(s).getBody().getData() != null) {
             packageRepo.deleteById(s);
             return createAndSendResponse(HttpStatus.OK.value(), "Package deleted successfully!", null);

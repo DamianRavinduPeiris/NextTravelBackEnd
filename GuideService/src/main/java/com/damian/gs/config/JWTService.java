@@ -1,4 +1,4 @@
-package com.damian.uas.config;
+package com.damian.gs.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -72,4 +72,9 @@ public class JWTService {
         return extractAllClaims(jwtToken).get("userRole").toString();
 
     }
+
+    public boolean validateToken(String jwtToken) {
+        return !isTokenExpired(jwtToken);
+    }
+
 }

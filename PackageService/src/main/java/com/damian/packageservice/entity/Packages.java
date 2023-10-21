@@ -1,8 +1,6 @@
 package com.damian.packageservice.entity;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -14,7 +12,8 @@ import java.util.List;
 @Entity
 public class Packages {
     @Id
-    @NonNull
+
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String packageId;
     @NonNull
     private String packageCategory;

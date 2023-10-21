@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin
 public class GuideController {
     @Autowired
     private GuideService guideService;
