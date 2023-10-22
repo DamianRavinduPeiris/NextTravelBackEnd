@@ -19,8 +19,8 @@ public class AppConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
         return requestTemplate -> {
-            requestTemplate.header("Authorization", "Bearer "+JWTAuthFilter.JWT_TOKEN);
-};
+            requestTemplate.header("Authorization", "Bearer " + JWTAuthFilter.JWT_TOKEN);
+        };
 }
 
 }
