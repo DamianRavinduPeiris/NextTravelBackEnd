@@ -14,7 +14,7 @@ public class ESController {
     private EmailService emailService;
     @PostMapping(path = "/sendEmail",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public String sendEmail(@RequestBody Email email){
-       return emailService.sendSimpleEmail(email);
+       return emailService.sendEmail(email);
 
     }
 }

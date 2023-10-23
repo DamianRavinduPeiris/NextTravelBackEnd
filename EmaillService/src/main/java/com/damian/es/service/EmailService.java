@@ -11,8 +11,15 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public String sendSimpleEmail(Email email
-                                ) {
+    public String sendEmail(Email email,String name) {
+        String body = "Dear " + name + ",\n\n"
+                + "Welcome aboard " + name + " to NextTravel.\n\n"
+                + email.getBody() + "\n\n"
+                + "Use the OTP below to complete your signup:\n"
+                + otp + "\n\n"
+                + "Regards,\n"
+                + "Damian Peiris - Team NextTravel.";
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("drpeiris3.edu@gmail.com");
         message.setTo(email.getToEmail());
@@ -27,4 +34,7 @@ public class EmailService {
     }
 
 }
+
+
+
 
