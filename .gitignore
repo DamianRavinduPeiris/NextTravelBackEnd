@@ -58,6 +58,9 @@ UploadServer/.mvn/
 UploadServer/target/
 PackageDetailsService/.mvn/
 PackageDetailsService/target/
+EmaillService/.mvn/
+EmaillService/target/
+
 
 
 
