@@ -10,7 +10,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 
-public class Email implements Serializable {
+public class EmailDetails implements Serializable {
+    private String name;
     private String toEmail;
     private String subject;
     private String body;
