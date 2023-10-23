@@ -13,6 +13,8 @@ public interface PackageRepo extends JpaRepository<Packages,String> {
     @Query(value = "SELECT package_id FROM packages",nativeQuery = true)
     List<String>getPackageIDs();
     Optional<Packages>findByPackageCategory(String packageCategory);
+    @Query(value = "SELECT package_category FROM packages",nativeQuery = true)
+    List<String>findByPackageCategory();
 
 
 

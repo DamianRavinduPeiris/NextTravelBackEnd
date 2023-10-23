@@ -91,17 +91,24 @@ public class PackageController {
     }
 
 
-    @PutMapping(path = "/updateHotelPackageId",produces = MediaType.APPLICATION_JSON_VALUE,params = {"oldPackageId","newPackageId","hotelId"})
-    public ResponseEntity<Response>updateHotelPackageId(@RequestParam("oldPackageId")String oldPackageId,@RequestParam("newPackageId")String newPackageId,@RequestParam("hotelId")String hotelId){
-        return packageService.updateHotelPackageID(oldPackageId,newPackageId,hotelId);
+    @PutMapping(path = "/updateHotelPackageId", produces = MediaType.APPLICATION_JSON_VALUE, params = {"oldPackageId", "newPackageId", "hotelId"})
+    public ResponseEntity<Response> updateHotelPackageId(@RequestParam("oldPackageId") String oldPackageId, @RequestParam("newPackageId") String newPackageId, @RequestParam("hotelId") String hotelId) {
+        return packageService.updateHotelPackageID(oldPackageId, newPackageId, hotelId);
     }
-    @PutMapping(path = "/updateVehiclePackageId",produces = MediaType.APPLICATION_JSON_VALUE,params = {"oldPackageId","newPackageId","vehicleId"})
-    public ResponseEntity<Response>updateVehiclePackageId(@RequestParam("oldPackageId")String oldPackageId,@RequestParam("newPackageId")String newPackageId,@RequestParam("vehicleId")String vehicleId){
-        return packageService.updateVehiclePackageID(oldPackageId,newPackageId,vehicleId);
+
+    @PutMapping(path = "/updateVehiclePackageId", produces = MediaType.APPLICATION_JSON_VALUE, params = {"oldPackageId", "newPackageId", "vehicleId"})
+    public ResponseEntity<Response> updateVehiclePackageId(@RequestParam("oldPackageId") String oldPackageId, @RequestParam("newPackageId") String newPackageId, @RequestParam("vehicleId") String vehicleId) {
+        return packageService.updateVehiclePackageID(oldPackageId, newPackageId, vehicleId);
     }
-    @GetMapping(path = "/getPackageByCategory",produces = MediaType.APPLICATION_JSON_VALUE,params = "category")
-    public ResponseEntity<Response>getPackageByCategory(@RequestParam("category")String category){
+
+    @GetMapping(path = "/getPackageByCategory", produces = MediaType.APPLICATION_JSON_VALUE, params = "category")
+    public ResponseEntity<Response> getPackageByCategory(@RequestParam("category") String category) {
         return packageService.getPackageByCategory(category);
+    }
+
+    @GetMapping(path = "/getPackages", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getPackages() {
+        return packageService.getPackageCategoryList();
     }
 
 }

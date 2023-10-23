@@ -22,6 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 
 public class JWTAuthFilter extends OncePerRequestFilter {
+    public static String JWT_TOKEN;
     @Autowired
     private final HandlerExceptionResolver handlerExceptionResolver;
     @Autowired
@@ -29,9 +30,10 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("This is JWTAuthFilter."+request.getHeader("Authorization"));
+        System.out.println("This is JWTAuthFilter." + request.getHeader("Authorization"));
         String authHeader = request.getHeader("Authorization");//Extracting the header.
         String jwtToken = null;
         String userName;
@@ -41,6 +43,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             return;
         }
         jwtToken = authHeader.substring(7);
+        JWT_TOKEN = jwtToken;
 
 
         try {
@@ -56,10 +59,10 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             UserDetails user = userDetailsService.loadUserByUsername(userName);
             System.out.println("User : " + user.toString());
 
-            if (JWTService.validateToken(jwtToken, user)) {
+            if (JWTService.validateToken(jwtToken, user) && JWTService.getUserRole(jwtToken).equals("user") || JWTService.getUserRole(jwtToken).equals("userAdmin") || JWTService.getUserRole(jwtToken).equals("packageDetailsAdmin") || JWTService.getUserRole(jwtToken).equals("paymentsAdmin")) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 System.out.println("auth status: " + authToken.isAuthenticated());
-                System.out.println("Here is user role : "+JWTService.getUserRole(jwtToken));
+                System.out.println("Here is user role : " + JWTService.getUserRole(jwtToken));
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 

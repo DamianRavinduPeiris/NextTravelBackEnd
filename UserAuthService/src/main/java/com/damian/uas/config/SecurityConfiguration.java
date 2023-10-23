@@ -27,12 +27,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable().authorizeRequests()
-                .requestMatchers("api/v1/auth/getAuth")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .csrf().disable()
+                .authorizeRequests()
+                .requestMatchers("/api/v1/auth/getAuth").permitAll()
+                .requestMatchers("/**").hasAnyAuthority("user", "userAdmin", "packageDetailsAdmin", "paymentsAdmin")
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -40,12 +39,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-
-
-
         return http.build();
-
-
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

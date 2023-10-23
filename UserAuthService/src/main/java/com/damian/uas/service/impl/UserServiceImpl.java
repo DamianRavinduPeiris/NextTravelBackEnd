@@ -1,4 +1,5 @@
 package com.damian.uas.service.impl;
+
 import com.damian.uas.config.JWTService;
 import com.damian.uas.dto.UserDTO;
 import com.damian.uas.entity.User;
@@ -52,9 +53,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             userDTO.setUserPassword(passwordEncoder.encode(userDTO.getUserPassword()));
 
             userRepo.save(mapper.map(userDTO, User.class));
-            HashMap<String,Object> userRoles= new HashMap<>();
-            userRoles.put("userRole",userDTO.getUserRole());
-            return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved and JWT successfully generated!", jwtService.generateToken(userRoles,mapper.map(userDTO, User.class)));
+            HashMap<String, Object> userRoles = new HashMap<>();
+            userRoles.put("userRole", userDTO.getUserRole());
+            return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved!", jwtService.generateToken(userRoles, mapper.map(userDTO, User.class)));
 
         }
 
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public ResponseEntity<Response> getAll(UserDTO userDTO) {
+    public ResponseEntity<Response> getAll() {
         List<User> users = userRepo.findAll();
         if (users.isEmpty()) {
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Users not found!", null);
@@ -145,20 +146,30 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public ResponseEntity<Response> getUserByUserName(String username,String password) {
+    public ResponseEntity<Response> getUserByUserName(String username, String password) {
         Optional<User> user = userRepo.findByUserName(username);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             UserDTO userDTO = mapper.map(user.get(), UserDTO.class);
-            userDTO.setAuthenticated(passwordValidator(password,user.get().getUserPassword()));
-            return createAndSendResponse(HttpStatus.OK.value(),"User successfully retrieved!",userDTO);
+            userDTO.setAuthenticated(passwordValidator(password, user.get().getUserPassword()));
+            return createAndSendResponse(HttpStatus.OK.value(), "User successfully retrieved!", userDTO);
 
         }
-        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"User not found!",null);
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
     }
 
     @Override
-    public Boolean passwordValidator(String password,String storedHashedPassword) {
+    public Boolean passwordValidator(String password, String storedHashedPassword) {
         return passwordEncoder.matches(password, storedHashedPassword);
 
+    }
+
+    @Override
+    public ResponseEntity<Response> findUserByName(String name) {
+        Optional<User> user = userRepo.findByName(name);
+        if (user.isPresent()) {
+            return createAndSendResponse(HttpStatus.OK.value(), "User successfully retrieved!", mapper.map(user.get(), UserDTO.class));
+
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
     }
 }

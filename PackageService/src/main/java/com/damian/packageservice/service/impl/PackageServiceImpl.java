@@ -208,4 +208,9 @@ public class PackageServiceImpl implements PackageService {
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Package does not exist!",null);
 
     }
+
+    @Override
+    public List<String> getPackageCategoryList() {
+     return    packageRepo.findByPackageCategory();
+    }
 }

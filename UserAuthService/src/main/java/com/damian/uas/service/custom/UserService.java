@@ -13,5 +13,6 @@ public interface UserService extends SuperService<UserDTO,String> {
     String  handleUploads(MultipartFile imageFile);
     ResponseEntity<Response>getUserByUserName(String username,String password);
     Boolean passwordValidator(String password,String hashedPassword);
+    ResponseEntity<Response>findUserByName(String name);
 
 }
