@@ -15,4 +15,6 @@ public interface UserService extends SuperService<UserDTO,String> {
     Boolean passwordValidator(String password,String hashedPassword);
     ResponseEntity<Response>findUserByName(String name);
 
+    boolean validateUserName(String username);
+
 }

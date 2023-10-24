@@ -19,14 +19,14 @@ public class EmailService {
     private OTP otp;
 
     public String sendEmail(EmailDetails email) {
-        String body = "Dear " + email.getName() + ",\n\n" + "Welcome aboard!.\n\n" + email.getBody() + "\n\n" + "Use the OTP below to complete your signup:\n" + generateAndSaveOtp(email.getToEmail()) + "\n\n" + "Regards,\n" + "Damian Peiris - Team NextTravel.";
+        String otp = generateAndSaveOtp(email.getToEmail());
+        String body = "Dear " + email.getName() + ",\n\n" + "Welcome aboard!.\n\n" +  "\n\n" + "Use the OTP below to complete your signup:\n" + otp + "\n\n" + "Regards,\n" + "Damian Peiris - Team NextTravel.";
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("drpeiris3.edu@gmail.com");
         message.setTo(email.getToEmail());
         message.setText(body);
-        message.setSubject(email.getSubject());
         mailSender.send(message);
-        return "EmailDetails sent successfully";
+        return otp;
 
 
     }

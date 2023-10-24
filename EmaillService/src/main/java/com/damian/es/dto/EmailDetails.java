@@ -13,8 +13,6 @@ import java.io.Serializable;
 public class EmailDetails implements Serializable {
     private String name;
     private String toEmail;
-    private String subject;
-    private String body;
 
 
 }

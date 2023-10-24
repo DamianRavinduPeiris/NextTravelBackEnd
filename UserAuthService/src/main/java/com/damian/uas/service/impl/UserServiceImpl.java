@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @Transactional
@@ -52,10 +53,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (search(userDTO.getUserId()).getBody().getData() == null) {
             userDTO.setUserPassword(passwordEncoder.encode(userDTO.getUserPassword()));
             userDTO.setUserImageLocation(userDTO.getUserImageLocation().replace("\\", "/"));
-            userRepo.save(mapper.map(userDTO, User.class));
-            HashMap<String, Object> userRoles = new HashMap<>();
-            userRoles.put("userRole", userDTO.getUserRole());
-            return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved!", jwtService.generateToken(userRoles, mapper.map(userDTO, User.class)));
+            if(validateUserName(userDTO.getUserName())){
+                userRepo.save(mapper.map(userDTO, User.class));
+                HashMap<String, Object> userRoles = new HashMap<>();
+                userRoles.put("userRole", userDTO.getUserRole());
+                System.out.println("Sent : "+HttpStatus.CREATED.value());
+                return createAndSendResponse(HttpStatus.CREATED.value(), "User Successfully saved!", jwtService.generateToken(userRoles, mapper.map(userDTO, User.class)));
+
+            }
+            return createAndSendResponse(HttpStatus.CONFLICT.value(), "UserName already exists!", null);
+
 
         }
 
@@ -116,8 +123,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public ResponseEntity<Response> createAndSendResponse(int statusCode, String message, Object data) {
+        response.setStatusCode(statusCode);
         response.setMessage(message);
         response.setData(data);
+        System.out.println("In response : "+HttpStatus.valueOf(statusCode));
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(statusCode));
     }
 
@@ -176,5 +185,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
+    }
+
+    @Override
+    public boolean validateUserName(String username) {
+          AtomicBoolean status = new AtomicBoolean(true);
+        List<User> usersList = userRepo.findAll();
+        if(usersList.isEmpty()){
+            return true;
+
+        }
+        usersList.forEach((user)->{
+            if(user.getUsername().equals(username)){
+                 status.set(false);
+            }
+
+        });
+        return status.get();
+
+
     }
 }
