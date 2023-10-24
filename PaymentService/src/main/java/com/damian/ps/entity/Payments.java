@@ -17,4 +17,5 @@ public class Payments {
     private String packageDetailsId;
     private String paymentDate;
     private double paymentAmount;
+    private String paymentImageLocation;
 }

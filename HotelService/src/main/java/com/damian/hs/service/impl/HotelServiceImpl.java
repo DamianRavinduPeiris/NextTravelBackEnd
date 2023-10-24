@@ -34,6 +34,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public ResponseEntity<Response> add(HotelDTO hotelDTO) {
         if (search(hotelDTO.getHotelId()).getBody().getData() == null) {
+            hotelDTO.setHotelImageLocation(hotelDTO.getHotelImageLocation().replace("\\", "/"));
             hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
             HotelDTO dto = (HotelDTO) findByHotelName(hotelDTO.getHotelName()).getBody().getData();
             packageInterface.saveHotelID(hotelDTO.getPackageId(), dto.getHotelId());
@@ -52,6 +53,7 @@ public class HotelServiceImpl implements HotelService {
         Optional<Hotel> hotelDto = hotelRepo.findById(hotelDTO.getHotelId());
         if (hotelDto.isPresent()) {
             packageInterface.updateHotelPackageId(hotelDto.get().getPackageId(), hotelDTO.getPackageId(), hotelDTO.getHotelId());
+            hotelDTO.setHotelImageLocation(hotelDTO.getHotelImageLocation().replace("\\", "/"));
             hotelRepo.save(mapper.map(hotelDTO, Hotel.class));
 
 

@@ -32,4 +32,8 @@ public class PaymentsDTO implements SuperDTO, Serializable {
     private String paymentDate;
     @Positive(message = "Value cannot be negative.")
     private double paymentAmount;
+    @NotNull(message = "Payment Image cannot be null.")
+    @NotBlank(message = "Payment Image cannot be blank.")
+    private String paymentImageLocation;
+
 }

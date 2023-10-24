@@ -32,6 +32,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public ResponseEntity<Response> add(VehicleDTO vehicleDTO) {
         if (search(vehicleDTO.getVehicleId()).getBody().getData() == null) {
+            vehicleDTO.setVehicleImageLocation(vehicleDTO.getVehicleImageLocation().replace("\\", "/"));
             vehicleRepo.save(mapper.map(vehicleDTO, Vehicle.class));
             VehicleDTO vehicleDTO1 = (VehicleDTO) getVehicleByBrand(vehicleDTO.getVehicleBrand()).getBody().getData();
             packageInterface.saveVehicleID(vehicleDTO.getPackageId(), vehicleDTO1.getVehicleId());
@@ -52,6 +53,7 @@ public class VehicleServiceImpl implements VehicleService {
         Optional<Vehicle> vehicle = vehicleRepo.findById(vehicleDTO.getVehicleId());
         if (vehicle.isPresent()) {
             packageInterface.updateVehiclePackageId(vehicle.get().getPackageId(), vehicleDTO.getPackageId(), vehicleDTO.getVehicleId());
+            vehicleDTO.setVehicleImageLocation(vehicleDTO.getVehicleImageLocation().replace("\\", "/"));
             vehicleRepo.save(mapper.map(vehicleDTO, Vehicle.class));
 
 

@@ -31,6 +31,7 @@ public class GuideServiceImpl implements GuideService {
     public ResponseEntity<Response> add(GuideDTO guideDTO) {
 
         if (search(guideDTO.getGuideId()).getBody().getData() == null) {
+            guideDTO.setGuideImageLocation(guideDTO.getGuideImageLocation().replace("\\", "/"));
             guideRepo.save(mapper.map(guideDTO, Guide.class));
             return createAndSendResponse(HttpStatus.CREATED.value(), "Guide saved successfully!", null);
 
@@ -41,6 +42,7 @@ public class GuideServiceImpl implements GuideService {
     @Override
     public ResponseEntity<Response> update(GuideDTO guideDTO) {
         if (search(guideDTO.getGuideId()).getBody().getData() != null) {
+            guideDTO.setGuideImageLocation(guideDTO.getGuideImageLocation().replace("\\", "/"));
             guideRepo.save(mapper.map(guideDTO, Guide.class));
             return createAndSendResponse(HttpStatus.OK.value(), "Guide updated successfully!", null);
 
@@ -99,12 +101,12 @@ public class GuideServiceImpl implements GuideService {
     @Override
     public ResponseEntity<Response> searchByGuideName(String guideName) {
         Optional<Guide> guide = guideRepo.findByGuideName(guideName);
-        if(guide.isPresent()){
-            System.out.println("Guide Name : "+guideName);
-            System.out.println("Guide : "+guide.get());
-            return createAndSendResponse(HttpStatus.OK.value(),"Guide retrieved successfully!",mapper.map(guide.get(),GuideDTO.class));
+        if (guide.isPresent()) {
+            System.out.println("Guide Name : " + guideName);
+            System.out.println("Guide : " + guide.get());
+            return createAndSendResponse(HttpStatus.OK.value(), "Guide retrieved successfully!", mapper.map(guide.get(), GuideDTO.class));
 
         }
-        return createAndSendResponse(HttpStatus.NOT_FOUND.value(),"Guide not found!",null);
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Guide not found!", null);
     }
 }

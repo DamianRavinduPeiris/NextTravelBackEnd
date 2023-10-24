@@ -51,9 +51,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public ResponseEntity<Response> add(UserDTO userDTO) {
         if (search(userDTO.getUserId()).getBody().getData() == null) {
             userDTO.setUserPassword(passwordEncoder.encode(userDTO.getUserPassword()));
-            String userImageLocation = userDTO.getUserImageLocation();
-            String normalizedPath = userImageLocation.replace("\\", "/");
-            userDTO.setUserImageLocation(normalizedPath);
+            userDTO.setUserImageLocation(userDTO.getUserImageLocation().replace("\\", "/"));
             userRepo.save(mapper.map(userDTO, User.class));
             HashMap<String, Object> userRoles = new HashMap<>();
             userRoles.put("userRole", userDTO.getUserRole());
@@ -67,6 +65,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public ResponseEntity<Response> update(UserDTO userDTO) {
         if (search(userDTO.getUserId()).getBody().getData() == null) {
+            userDTO.setUserImageLocation(userDTO.getUserImageLocation().replace("\\", "/"));
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
 
         }

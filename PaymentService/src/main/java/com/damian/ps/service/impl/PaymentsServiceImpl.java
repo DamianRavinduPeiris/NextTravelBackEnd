@@ -29,6 +29,7 @@ public class PaymentsServiceImpl implements PaymentService {
     @Override
     public ResponseEntity<Response> add(PaymentsDTO paymentsDTO) {
         if (search(paymentsDTO.getPaymentId()).getBody().getData() == null) {
+            paymentsDTO.setPaymentImageLocation(paymentsDTO.getPaymentImageLocation().replace("\\", "/"));
             paymentsRepo.save(mapper.map(paymentsDTO, Payments.class));
             return createAndSendResponse(HttpStatus.CREATED.value(), "Payment Done!", null);
 
@@ -40,6 +41,7 @@ public class PaymentsServiceImpl implements PaymentService {
     @Override
     public ResponseEntity<Response> update(PaymentsDTO paymentsDTO) {
         if (search(paymentsDTO.getPaymentId()).getBody().getData() != null) {
+            paymentsDTO.setPaymentImageLocation(paymentsDTO.getPaymentImageLocation().replace("\\", "/"));
             paymentsRepo.save(mapper.map(paymentsDTO, Payments.class));
             return createAndSendResponse(HttpStatus.OK.value(), "Payment updated!", null);
         }
