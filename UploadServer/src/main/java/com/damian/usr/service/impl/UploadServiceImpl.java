@@ -2,10 +2,17 @@ package com.damian.usr.service.impl;
 
 
 import com.damian.usr.service.custom.UploadService;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -36,5 +43,25 @@ public class UploadServiceImpl implements UploadService {
             throw new RuntimeException("An error occurred while saving the image :" + e.getLocalizedMessage());
         }
 
+    }
+    @Override
+    public ResponseEntity<Resource> getImage(String imagePath)  {
+        File file = new File(imagePath);
+
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource resource = null;
+        try {
+            resource = new InputStreamResource(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .contentLength(file.length())
+                .body(resource);
     }
 }
