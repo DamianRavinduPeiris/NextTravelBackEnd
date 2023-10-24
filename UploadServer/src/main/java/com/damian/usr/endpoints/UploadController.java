@@ -23,8 +23,8 @@ public class UploadController {
 
     }
 
-    @GetMapping(path = "/getImage")
-    public ResponseEntity<Resource> getImage(String imagePath) {
+    @GetMapping(path = "/getImage",params = "imagePath")
+    public ResponseEntity<Resource> getImage(@RequestParam("imagePath") String imagePath) {
 
         return uploadService.getImage(imagePath);
     }
