@@ -2,9 +2,11 @@ package com.damian.es.service;
 
 import com.damian.es.dto.EmailDetails;
 import com.damian.es.entity.OTP;
+import com.damian.es.response.Response;
 import com.damian.es.service.custom.OTPService;
 import com.fasterxml.uuid.Generators;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,11 @@ public class EmailService {
     private OTPService otpService;
     @Autowired
     private OTP otp;
+    @Autowired
+    private Response response;
 
-    public String sendEmail(EmailDetails email) {
+    public ResponseEntity<Response> sendEmail(EmailDetails email) {
+        System.out.println("Sending Email to: " + email.getToEmail());
         String otp = generateAndSaveOtp(email.getToEmail());
         String body = "Dear " + email.getName() + ",\n\n" + "Welcome aboard!.\n\n" +  "\n\n" + "Use the OTP below to complete your signup:\n" + otp + "\n\n" + "Regards,\n" + "Damian Peiris - Team NextTravel.";
         SimpleMailMessage message = new SimpleMailMessage();
@@ -26,7 +31,10 @@ public class EmailService {
         message.setTo(email.getToEmail());
         message.setText(body);
         mailSender.send(message);
-        return otp;
+        response.setStatusCode(200);
+        response.setMessage("Email sent successfully");
+        response.setData(otp);
+        return new ResponseEntity<>(response, org.springframework.http.HttpStatus.OK);
 
 
     }
