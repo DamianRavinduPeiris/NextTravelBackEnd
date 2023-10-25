@@ -1,6 +1,7 @@
 package com.damian.uas.endpoints;
 
 import com.damian.uas.dto.UserDTO;
+import com.damian.uas.interfaces.PackageDetailsInterface;
 import com.damian.uas.response.Response;
 import com.damian.uas.service.custom.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PackageDetailsInterface packageDetailsInterface;
 
     @GetMapping(path = "/getUserByUserName", produces = MediaType.APPLICATION_JSON_VALUE, params = {"username", "password"})
     public ResponseEntity<Response> getUserByUserName(@RequestParam("username") String username, @RequestParam("password") String password) {
@@ -31,6 +34,7 @@ public class UserController {
     }
     @DeleteMapping(path = "/deleteUser", produces = MediaType.APPLICATION_JSON_VALUE, params = {"userId"})
     public ResponseEntity<Response> deleteUser(@RequestParam("userId") String userId) {
+        packageDetailsInterface.deletePackageDetailsByUser(userId);
         return userService.delete(userId);
     }
     @GetMapping(path = "/getAllUsers", produces = MediaType.APPLICATION_JSON_VALUE)

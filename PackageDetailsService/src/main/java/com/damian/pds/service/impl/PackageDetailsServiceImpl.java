@@ -97,4 +97,36 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
         response.setData(data);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(statusCode));
     }
+
+    @Override
+    public ResponseEntity<Response> getPackageDetailsByUser(String userId) {
+        List<PackageDetails> packs = packageDetailsRepo.findByUserId(userId);
+        if(packs.isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "PackageDetails Not Found!",null);
+
+        }
+        List<PackageDetailsDTO>packageDetailsDTOList = new ArrayList<>();
+        packs.forEach((p)->{
+            packageDetailsDTOList.add(mapper.map(p,PackageDetailsDTO.class));
+
+        });
+
+        return createAndSendResponse(HttpStatus.FOUND.value(), "PackageDetails Retrieved Successfully!",packageDetailsDTOList);
+
+    }
+
+    @Override
+    public ResponseEntity<Response> deletePackageDetailsByUser(String userId) {
+        List<PackageDetails> packs = packageDetailsRepo.findByUserId(userId);
+        if(packs.isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "No PackageDetails found to delete!",null);
+
+        }
+        packs.forEach((p)->{
+            packageDetailsRepo.deleteById(p.getPackageDetailsId());
+
+        });
+        return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Deleted Successfully!",null);
+
+    }
 }

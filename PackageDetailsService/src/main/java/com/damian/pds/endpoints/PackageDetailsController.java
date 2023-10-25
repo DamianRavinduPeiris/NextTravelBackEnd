@@ -44,4 +44,10 @@ public class PackageDetailsController {
         return packageDetailsService.getAll();
 
     }
+
+    @DeleteMapping(path = "/deletePackageDetailsByUser", params = "userId", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response> deletePackageDetailsByUser(@RequestParam("userId") String userId) {
+        return packageDetailsService.deletePackageDetailsByUser(userId);
+
+    }
 }
