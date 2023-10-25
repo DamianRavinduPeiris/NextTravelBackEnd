@@ -60,5 +60,6 @@ public class HotelDTO implements SuperDTO, Serializable, com.damian.hs.dto.super
     @NotBlank(message = "This field cannot be blank.")
     private String cancellationCriteria;
     private String remarks;
+    private  int starRating;
 
 }

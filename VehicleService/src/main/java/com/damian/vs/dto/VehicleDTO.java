@@ -52,5 +52,7 @@ public class VehicleDTO implements SuperDTO, Serializable {
     private String driversContactNumber;
     private String driversLicenseImageLocation;
     private String remarks;
+    private double feeForADay;
+
 
 }

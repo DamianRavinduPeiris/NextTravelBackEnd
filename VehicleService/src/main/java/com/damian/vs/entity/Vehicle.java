@@ -30,5 +30,6 @@ public class Vehicle {
     private String driversContactNumber;
     private String driversLicenseImageLocation;
     private String remarks;
+    private double feeForADay;
 
 }
