@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin
 public class PackageDetailsController {
     @Autowired
     private PackageDetailsService packageDetailsService;
