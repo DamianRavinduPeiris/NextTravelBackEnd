@@ -44,6 +44,15 @@ public class UserController {
         return userService.findUserByName(name);
     }
 
+    @GetMapping(path ="/getAllNames",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getAllNames(){
+        return userService.getAllUsersNames();
+    }
+    @GetMapping(path ="/getAllIDs",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getAllIDs(){
+        return userService.getAllUsersIDs();
+    }
+
 
 
 }

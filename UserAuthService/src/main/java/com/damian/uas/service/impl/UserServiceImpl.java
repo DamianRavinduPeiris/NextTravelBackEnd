@@ -209,4 +209,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     }
+
+    @Override
+    public ResponseEntity<Response> getAllUsersNames() {
+        List<String> names = userRepo.getAllNames();
+        if(names.isEmpty()){
+
+            return createAndSendResponse(HttpStatus.OK.value(), "Users successfully retrieved!", names);
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User names not found!", null);
+
+    }
+
+    @Override
+    public ResponseEntity<Response> getAllUsersIDs() {
+        List<String> ids = userRepo.getAllIds();
+        if(ids.isEmpty()){
+            return createAndSendResponse(HttpStatus.OK.value(), "Users successfully retrieved!", ids);
+        }
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User IDs not found!", null);
+
+    }
 }

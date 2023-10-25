@@ -16,5 +16,7 @@ public interface UserService extends SuperService<UserDTO,String> {
     ResponseEntity<Response>findUserByName(String name);
 
     boolean validateUserName(String username);
+    ResponseEntity<Response>getAllUsersNames();
+    ResponseEntity<Response>getAllUsersIDs();
 
 }

@@ -18,14 +18,11 @@ import java.io.Serializable;
 
 public class PaymentsDTO implements SuperDTO, Serializable {
     @Valid
-    @NotNull(message = "Payment Id cannot be null.")
-    @NotBlank(message = "Payment Id cannot be blank.")
+
     private String paymentId;
     @NotNull(message = "User Id cannot be null.")
     @NotBlank(message = "User Id cannot be blank.")
     private String userId;
-    @NotNull(message = "Package Details Id cannot be null.")
-    @NotBlank(message = "Package Details Id cannot be blank.")
     private String packageDetailsId;
     @NotNull(message = "Payment Date cannot be null.")
     @NotBlank(message = "Payment Date cannot be blank.")
