@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public ResponseEntity<Response> update(UserDTO userDTO) {
         if (search(userDTO.getUserId()).getBody().getData() == null) {
+            userDTO.setUserPassword(passwordEncoder.encode(userDTO.getUserPassword()));
             userDTO.setUserImageLocation(userDTO.getUserImageLocation().replace("\\", "/"));
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
 
