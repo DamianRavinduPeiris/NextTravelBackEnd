@@ -1,5 +1,6 @@
-package com.damian.uas.dto.superdto;
+package com.damian.uas.dto;
 
+import com.damian.uas.dto.superdto.SuperDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

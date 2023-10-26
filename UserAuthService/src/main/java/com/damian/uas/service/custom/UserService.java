@@ -3,7 +3,7 @@ package com.damian.uas.service.custom;
 
 import com.damian.uas.dto.UserDTO;
 
-import com.damian.uas.dto.superdto.CustomUpdaterDTO;
+import com.damian.uas.dto.CustomUpdaterDTO;
 import com.damian.uas.response.Response;
 import com.damian.uas.service.SuperService;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.damian.uas.endpoints;
 
 import com.damian.uas.dto.UserDTO;
-import com.damian.uas.dto.superdto.CustomUpdaterDTO;
+import com.damian.uas.dto.CustomUpdaterDTO;
 import com.damian.uas.interfaces.PackageDetailsInterface;
 import com.damian.uas.response.Response;
 import com.damian.uas.service.custom.UserService;
