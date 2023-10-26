@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -56,10 +57,16 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         }
         //Checking of the username's not nullability  and the authentication status of the current user.
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails user = userDetailsService.loadUserByUsername(userName);
+            UserDetails user = null;
+            try {
+                user = userDetailsService.loadUserByUsername(userName);
+            } catch (Exception e) {
+                handlerExceptionResolver.resolveException(request, response, null, new RuntimeException("UserName not found in DB, cannot validate via JWTAuth filter : " + e.getLocalizedMessage()));
+                return;
+            }
             System.out.println("User : " + user.toString());
 
-            if (JWTService.validateToken(jwtToken, user) && JWTService.getUserRole(jwtToken).equals("user") || JWTService.getUserRole(jwtToken).equals("userAdmin") || JWTService.getUserRole(jwtToken).equals("packageDetailsAdmin") || JWTService.getUserRole(jwtToken).equals("paymentsAdmin")) {
+            if (JWTService.validateToken(jwtToken, user) && JWTService.getUserRole(jwtToken).equals("user") || JWTService.getUserRole(jwtToken).equals("userAdmin") || JWTService.getUserRole(jwtToken).equals("packageDetailsAdmin") || JWTService.getUserRole(jwtToken).equals("paymentsAdmin") || JWTService.getUserRole(jwtToken).equals("packageAdmin") || JWTService.getUserRole(jwtToken).equals("guideAdmin") || JWTService.getUserRole(jwtToken).equals("hotelAdmin") || JWTService.getUserRole(jwtToken).equals("vehicleAdmin")) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 System.out.println("auth status: " + authToken.isAuthenticated());
                 System.out.println("Here is user role : " + JWTService.getUserRole(jwtToken));
