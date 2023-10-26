@@ -2,6 +2,7 @@ package com.damian.uas.service.impl;
 
 import com.damian.uas.config.JWTService;
 import com.damian.uas.dto.UserDTO;
+import com.damian.uas.dto.superdto.CustomUpdaterDTO;
 import com.damian.uas.entity.User;
 import com.damian.uas.repo.UserRepo;
 import com.damian.uas.response.Response;
@@ -230,5 +231,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User IDs not found!", null);
 
+    }
+
+    @Override
+    public ResponseEntity<Response> customUpdater(CustomUpdaterDTO customUpdaterDTO) {
+        Optional<User> user = userRepo.findById(customUpdaterDTO.getUserID());
+        if(!user.isPresent()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
+
+        }
+        user.get().setUserPassword(customUpdaterDTO.getPassword());
+        user.get().setUserImageLocation(customUpdaterDTO.getUserImageLocation());
+        return update(mapper.map(user.get(),UserDTO.class));
     }
 }

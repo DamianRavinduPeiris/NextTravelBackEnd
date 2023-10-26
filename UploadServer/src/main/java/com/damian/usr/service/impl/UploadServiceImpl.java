@@ -38,7 +38,8 @@ public class UploadServiceImpl implements UploadService {
         // Save the image file.
         try {
             imageFile.transferTo(Paths.get(filePath));
-            return filePath;
+            return filePath.replace("\\", "/");
+
         } catch (IOException e) {
             throw new RuntimeException("An error occurred while saving the image :" + e.getLocalizedMessage());
         }

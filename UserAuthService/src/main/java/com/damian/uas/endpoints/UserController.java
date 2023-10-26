@@ -1,6 +1,7 @@
 package com.damian.uas.endpoints;
 
 import com.damian.uas.dto.UserDTO;
+import com.damian.uas.dto.superdto.CustomUpdaterDTO;
 import com.damian.uas.interfaces.PackageDetailsInterface;
 import com.damian.uas.response.Response;
 import com.damian.uas.service.custom.UserService;
@@ -55,6 +56,12 @@ public class UserController {
     @GetMapping(path ="/getAllIDs",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response>getAllIDs(){
         return userService.getAllUsersIDs();
+    }
+
+
+    @PutMapping(path = "/customUpdater",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>customUpdater(@RequestBody CustomUpdaterDTO customUpdaterDTO){
+        return userService.customUpdater(customUpdaterDTO);
     }
 
 

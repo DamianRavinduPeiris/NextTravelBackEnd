@@ -3,6 +3,7 @@ package com.damian.uas.service.custom;
 
 import com.damian.uas.dto.UserDTO;
 
+import com.damian.uas.dto.superdto.CustomUpdaterDTO;
 import com.damian.uas.response.Response;
 import com.damian.uas.service.SuperService;
 import org.springframework.http.ResponseEntity;
@@ -18,5 +19,6 @@ public interface UserService extends SuperService<UserDTO,String> {
     boolean validateUserName(String username);
     ResponseEntity<Response>getAllUsersNames();
     ResponseEntity<Response>getAllUsersIDs();
+    ResponseEntity<Response>customUpdater(CustomUpdaterDTO customUpdaterDTO);
 
 }
