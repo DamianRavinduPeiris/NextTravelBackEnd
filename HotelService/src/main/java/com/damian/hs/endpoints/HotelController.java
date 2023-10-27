@@ -63,6 +63,12 @@ public class HotelController {
 
 
     }
+    @GetMapping(path = "/getHotelByPackageId",params = "packageId",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getHotelByPackageId(@RequestParam("packageId")String packageId){
+        return hotelService.findHotelsByPackageID(packageId);
+
+
+    }
 
 
 

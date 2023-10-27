@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface HotelService extends SuperService<HotelDTO,String> {
     ResponseEntity<Response>deleteAllHotels(List<String> hotelIDList);
     ResponseEntity<Response> findByHotelName(String hotelName);
+    ResponseEntity<Response>findHotelsByPackageID(String packageID);
 }

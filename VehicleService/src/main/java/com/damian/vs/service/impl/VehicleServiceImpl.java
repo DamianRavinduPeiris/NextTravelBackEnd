@@ -126,4 +126,22 @@ public class VehicleServiceImpl implements VehicleService {
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Vehicle not found!", null);
     }
+
+    @Override
+    public ResponseEntity<Response> getVehiclesByPackageId(String packageId) {
+        List<Vehicle> vehicles = vehicleRepo.findByPackageId(packageId);
+        if (vehicles.isEmpty()) {
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "No vehicles found!", null);
+
+        }
+        List<VehicleDTO> vehicleDTOList = new ArrayList<>();
+        vehicles.forEach((v) -> {
+            vehicleDTOList.add(mapper.map(v, VehicleDTO.class));
+
+        });
+        return createAndSendResponse(HttpStatus.OK.value(), "Vehicles successfully retrieved!", vehicleDTOList);
+
+
+
+    }
 }

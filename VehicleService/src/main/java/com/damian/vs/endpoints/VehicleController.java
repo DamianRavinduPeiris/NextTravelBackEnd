@@ -63,5 +63,10 @@ public class VehicleController {
         return vehicleService.getVehicleByBrand(vehicleBrand);
 
     }
+    @GetMapping(path = "/getVehicleByPackageId",params = "packageId",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>getVehicleByPackageId(@RequestParam("packageId")String packageId){
+        return vehicleService.getVehiclesByPackageId(packageId);
+
+    }
 
 }
