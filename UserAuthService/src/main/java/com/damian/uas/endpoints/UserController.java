@@ -64,6 +64,12 @@ public class UserController {
         return userService.customUpdater(customUpdaterDTO);
     }
 
+    @PutMapping(path = "/updatePId",produces = MediaType.APPLICATION_JSON_VALUE,params = {"uId","pId"})
+    public ResponseEntity<Response>updatePid(@RequestParam("uId") String uId,@RequestParam("pId") String pId){
+        return userService.savePackageDetailsId(uId,pId);
+
+    }
+
 
 
 }

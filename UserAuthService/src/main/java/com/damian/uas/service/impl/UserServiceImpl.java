@@ -245,4 +245,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepo.save(user.get());
         return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
     }
+
+    @Override
+    public ResponseEntity<Response> savePackageDetailsId(String uId,String pId) {
+        Optional<User> user = userRepo.findById(uId);
+        if(user.isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
+
+        }
+        user.get().getPackageDetailsIDList().add(pId);
+        userRepo.save(user.get());
+        return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
+
+    }
 }

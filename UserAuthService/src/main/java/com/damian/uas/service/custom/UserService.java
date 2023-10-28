@@ -21,4 +21,6 @@ public interface UserService extends SuperService<UserDTO,String> {
     ResponseEntity<Response>getAllUsersIDs();
     ResponseEntity<Response>customUpdater(CustomUpdaterDTO customUpdaterDTO);
 
+    ResponseEntity<Response>savePackageDetailsId(String uId,String pId);
+
 }

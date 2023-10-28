@@ -29,7 +29,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private JWTService JWTService;
     public static String JWT_TOKEN;
 
-  
+
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -59,13 +59,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
             if (JWTService.validateToken(jwtToken) && JWTService.getUserRole(jwtToken).equals("hotelAdmin") || JWTService.getUserRole(jwtToken).equals("packageAdmin") || JWTService.getUserRole(jwtToken).equals("user")) {
                 System.out.println("User role : "+JWTService.getUserRole(jwtToken));
-                    List<SimpleGrantedAuthority>simpleGrantedAuthorities=new ArrayList<>();
-                    simpleGrantedAuthorities.add(new SimpleGrantedAuthority(JWTService.getUserRole(jwtToken)));
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userName, null,simpleGrantedAuthorities);
-                    System.out.println("auth status: " + authToken.isAuthenticated());
-                    System.out.println("Here is user role : "+JWTService.getUserRole(jwtToken));
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                List<SimpleGrantedAuthority>simpleGrantedAuthorities=new ArrayList<>();
+                simpleGrantedAuthorities.add(new SimpleGrantedAuthority(JWTService.getUserRole(jwtToken)));
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userName, null,simpleGrantedAuthorities);
+                System.out.println("auth status: " + authToken.isAuthenticated());
+                System.out.println("Here is user role : "+JWTService.getUserRole(jwtToken));
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
 
 
 

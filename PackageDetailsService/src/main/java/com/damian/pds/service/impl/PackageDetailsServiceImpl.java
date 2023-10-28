@@ -2,6 +2,7 @@ package com.damian.pds.service.impl;
 
 import com.damian.pds.dto.PackageDetailsDTO;
 import com.damian.pds.entity.PackageDetails;
+import com.damian.pds.interfaces.UserInterface;
 import com.damian.pds.repo.PackageDetailsRepo;
 import com.damian.pds.response.Response;
 import com.damian.pds.service.custom.PackageDetailsService;
@@ -27,10 +28,14 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     @Autowired
     private PackageDetailsRepo packageDetailsRepo;
 
+    @Autowired
+    private UserInterface userInterface;
+
     @Override
     public ResponseEntity<Response> add(PackageDetailsDTO packageDetailsDTO) {
         if(search(packageDetailsDTO.getPackageDetailsId()).getBody().getData() == null){
             packageDetailsRepo.save(mapper.map(packageDetailsDTO, PackageDetails.class));
+            userInterface.updatePid(packageDetailsDTO.getUserId(),packageDetailsDTO.getPackageDetailsId());
             return createAndSendResponse(HttpStatus.CREATED.value(), "PackageDetails Created Successfully!",null);
 
         }
