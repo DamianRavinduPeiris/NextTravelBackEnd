@@ -1,6 +1,7 @@
 package com.damian.es.controllers;
 
 import com.damian.es.dto.EmailDetails;
+import com.damian.es.dto.PackageDetailsDTO;
 import com.damian.es.response.Response;
 import com.damian.es.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,13 @@ public class ESController {
     public ResponseEntity<Response> sendEmail(@RequestBody EmailDetails email){
         System.out.println("Email Details: "+email.toString());
        return emailService.sendEmail(email);
+
+    }
+    @PostMapping(path = "/sendPackageDetails",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>sendPackageDetails(@RequestBody PackageDetailsDTO packageDetailsDTO){
+        return emailService.sendPackageDetails(packageDetailsDTO);
+
+
 
     }
 }

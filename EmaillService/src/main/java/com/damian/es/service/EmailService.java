@@ -1,15 +1,23 @@
 package com.damian.es.service;
 
 import com.damian.es.dto.EmailDetails;
+import com.damian.es.dto.PackageDetailsDTO;
 import com.damian.es.entity.OTP;
 import com.damian.es.response.Response;
 import com.damian.es.service.custom.OTPService;
 import com.fasterxml.uuid.Generators;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 
 @Service
 public class EmailService {
@@ -37,6 +45,53 @@ public class EmailService {
         return new ResponseEntity<>(response, org.springframework.http.HttpStatus.OK);
 
 
+    }
+    public ResponseEntity<Response> sendPackageDetails(PackageDetailsDTO packageDetails) {
+        String body = "Dear " + packageDetails.getName() + ",\n\n" +
+                "Thank you for booking with us!\n\n" +
+                "Booking Details:\n" +
+                "Package ID: " + packageDetails.getPackageId() + "\n" +
+                "Package Category: " + packageDetails.getPackageCategory() + "\n" +
+                "Hotel ID: " + packageDetails.getHotelId() + "\n" +
+                "Vehicle ID: " + packageDetails.getVehicleId() + "\n" +
+                "Start Date: " + packageDetails.getStartDate() + "\n" +
+                "End Date: " + packageDetails.getEndDate() + "\n" +
+                "No. of Days: " + packageDetails.getNoOfDays() + "\n" +
+                "Travel Area: " + packageDetails.getTravelArea() + "\n" +
+                "No. of Adults: " + packageDetails.getNoOfAdults() + "\n" +
+                "No. of Children: " + packageDetails.getNoOfChildren() + "\n" +
+                "Total Head Count: " + packageDetails.getTotalHeadCount() + "\n" +
+                "Pets Allowed: " + (packageDetails.isPetsStatus() ? "Yes" : "No") + "\n" +
+                "Guide Requested: " + (packageDetails.isGuideStatus() ? "Yes" : "No") + "\n" +
+                "Guide ID: " + packageDetails.getGuideId() + "\n" +
+                "Total Package Value: " + packageDetails.getTotalPackageValue() + "\n" +
+                "User ID: " + packageDetails.getUserId() + "\n" +
+                "Paid Value: " + packageDetails.getPaidValue() + "\n" +
+                "Remarks: " + packageDetails.getRemarks() + "\n\n" +
+                "Regards,\n" +
+                "Damian Peiris - Team NextTravel.";
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setSubject("NextTravel - Booking Confirmation!");
+            helper.setFrom("drpeiris3.edu@gmail.com");
+            helper.setTo(packageDetails.getEmail());
+            helper.setText(body);
+
+            FileSystemResource file = new FileSystemResource(new File(packageDetails.getPaymentImageLocation()));
+            helper.addAttachment("PaymentProof.png", file);
+
+            mailSender.send(mimeMessage);
+        } catch (MailException | MessagingException e) {
+            throw new RuntimeException("An error occurred while sending the email! :" + e.getLocalizedMessage());
+        }
+
+        // Assuming you have a 'response' object defined elsewhere
+        response.setStatusCode(200);
+        response.setMessage("Email sent successfully");
+        response.setData(null);
+        return new ResponseEntity<>(response, org.springframework.http.HttpStatus.OK);
     }
 
     private String generateAndSaveOtp(String email) {
