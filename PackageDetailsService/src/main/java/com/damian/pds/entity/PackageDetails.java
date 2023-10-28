@@ -32,5 +32,6 @@ public class PackageDetails {
     private  double totalPackageValue;
     private  String userId;
     private double paidValue;
+    private String paymentImageLocation;
     private String remarks;
 }

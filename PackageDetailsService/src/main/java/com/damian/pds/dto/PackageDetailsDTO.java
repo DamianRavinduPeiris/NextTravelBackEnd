@@ -30,7 +30,7 @@ public class PackageDetailsDTO implements SuperDTO, Serializable {
     @NotNull(message = "Vehicle ID cannot be null.")
     @NotBlank(message = "Vehicle ID cannot be blank.")
     private String vehicleId;
-    private Date startDate;
+        private Date startDate;
     private Date endDate;
     @Positive(message = "Value cannot be negative.")
     private int noOfDays;
@@ -45,8 +45,6 @@ public class PackageDetailsDTO implements SuperDTO, Serializable {
     private int totalHeadCount;
     private  boolean petsStatus;
     private  boolean guideStatus;
-    @NotNull(message = "Guide ID cannot be null.")
-    @NotBlank(message = "Guide ID cannot be blank.")
     private String guideId;
     @Positive(message = "Value cannot be negative.")
     private  double totalPackageValue;
@@ -55,6 +53,10 @@ public class PackageDetailsDTO implements SuperDTO, Serializable {
     private  String userId;
     @Positive
     private double paidValue;
+    @NotNull(message = "Payment Image Location cannot be null.")
+    @NotBlank(message = "Payment Image Location cannot be blank.")
+    private String paymentImageLocation;
+
     private String remarks;
 
 
