@@ -8,4 +8,5 @@ import org.springframework.http.ResponseEntity;
 public interface PackageDetailsService extends SuperService<PackageDetailsDTO,String> {
     ResponseEntity<Response>getPackageDetailsByUser(String userId);
     ResponseEntity<Response>deletePackageDetailsByUser(String userId);
+    String generateId();
 }

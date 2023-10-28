@@ -6,6 +6,8 @@ import com.damian.pds.interfaces.UserInterface;
 import com.damian.pds.repo.PackageDetailsRepo;
 import com.damian.pds.response.Response;
 import com.damian.pds.service.custom.PackageDetailsService;
+import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.UUIDGenerator;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -31,9 +34,12 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     @Autowired
     private UserInterface userInterface;
 
+    
+
     @Override
     public ResponseEntity<Response> add(PackageDetailsDTO packageDetailsDTO) {
         if(search(packageDetailsDTO.getPackageDetailsId()).getBody().getData() == null){
+            packageDetailsDTO.setPackageDetailsId(generateId());
             packageDetailsRepo.save(mapper.map(packageDetailsDTO, PackageDetails.class));
             userInterface.updatePid(packageDetailsDTO.getUserId(),packageDetailsDTO.getPackageDetailsId());
             return createAndSendResponse(HttpStatus.CREATED.value(), "PackageDetails Created Successfully!",null);
@@ -133,5 +139,10 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
         });
         return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Deleted Successfully!",null);
 
+    }
+
+    @Override
+    public String generateId() {
+        return  "NEXT" +  Generators.randomBasedGenerator().generate().toString();
     }
 }
