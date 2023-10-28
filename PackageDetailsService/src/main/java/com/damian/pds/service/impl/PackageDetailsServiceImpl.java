@@ -41,7 +41,9 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
         if(search(packageDetailsDTO.getPackageDetailsId()).getBody().getData() == null){
             packageDetailsDTO.setPackageDetailsId(generateId());
             packageDetailsRepo.save(mapper.map(packageDetailsDTO, PackageDetails.class));
-            userInterface.updatePid(packageDetailsDTO.getUserId(),packageDetailsDTO.getPackageDetailsId());
+            System.out.println("USER ID "+packageDetailsDTO.getUserId());
+            System.out.println("PACKAGE DETAILS  ID "+packageDetailsDTO.getPackageDetailsId());
+            userInterface.updatePackageDetailsID(packageDetailsDTO.getUserId(),packageDetailsDTO.getPackageDetailsId());
             return createAndSendResponse(HttpStatus.CREATED.value(), "PackageDetails Created Successfully!",null);
 
         }

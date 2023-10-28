@@ -21,8 +21,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public Response handleExceptions(Exception exception) {
+        System.out.println("Exception : " + exception.getLocalizedMessage());
         response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.setMessage("Vehicle Server threw an exception : " + exception.getLocalizedMessage());
+        response.setMessage("PackageDetails Server threw an exception : " + exception.getLocalizedMessage());
         response.setData(null);
         return response;
 
