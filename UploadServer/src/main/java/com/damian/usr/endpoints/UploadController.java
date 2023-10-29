@@ -1,5 +1,7 @@
 package com.damian.usr.endpoints;
 
+import com.damian.usr.response.Response;
+import com.damian.usr.service.UploadToGDrive;
 import com.damian.usr.service.custom.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +26,14 @@ public class UploadController {
 
 
     }
+    @PostMapping(path = "/uploadToDrive", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Response> uploadToDrive(@RequestParam("imageFile") MultipartFile imageFile) {
+
+
+        return uploadService.uploadToGDrive(uploadService.handleUploads(imageFile));
+
+
+    }
 
     @GetMapping(path = "/getImage",params = "imagePath")
     public ResponseEntity<Resource> getImage(@RequestParam("imagePath") String imagePath) {
@@ -37,6 +47,8 @@ public class UploadController {
         java.io.File convertedFile = new java.io.File(file.getOriginalFilename());
         try {
             file.transferTo(convertedFile);
+
+            byte[] bytes = file.getBytes();
         } catch (IOException e) {
             throw new RuntimeException("Could not convert multipartFile to file : "+e.getLocalizedMessage());
         }
