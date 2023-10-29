@@ -1,6 +1,8 @@
 package com.damian.usr.service.impl;
 
 
+import com.damian.usr.custom.AccessTokenDetails;
+import com.damian.usr.custom.AccessTokenResponse;
 import com.damian.usr.response.GoogleResponseData;
 import com.damian.usr.response.Response;
 import com.damian.usr.service.custom.UploadService;
@@ -15,12 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -34,6 +35,10 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     private Response response;
     GoogleResponseData googleResponseData;
+    @Autowired
+    AccessTokenDetails accessTokenDetails;
+    @Autowired
+    private Gson gson;
     @Override
     public String handleUploads(MultipartFile imageFile) {
         // Getting the file name.
@@ -93,7 +98,7 @@ public class UploadServiceImpl implements UploadService {
                 postRequest = HttpRequest.newBuilder().
                         uri(new URI("https://www.googleapis.com/upload/drive/v3/files?uploadType=media")).
                         header("content-type", "image/png").
-                        header("Authorization", "Bearer "+"ya29.a0AfB_byBRdaN7BJyuPA6Ki_y_fCHsy5CGpcwVVllLfpb2GUwBgqCjqiji77z0R1kG3j5IRult0u2a-UQKuynKw6mAKudR5yL-pd3dIGarQ8W18Y_1OdZRTj5zY0NS0kfbmVAgM4fZ0LtMDFiqUHQu593Br_fuU-VcPuyiaCgYKAT4SARESFQGOcNnCv6WjiKdJvyF3jW21cm-DRg0171").
+                        header("Authorization", "Bearer "+tokenGenerator()).
                         POST(HttpRequest.BodyPublishers.ofByteArray(fileContent)).
                         build();
             } catch (URISyntaxException e) {
@@ -106,7 +111,7 @@ public class UploadServiceImpl implements UploadService {
             try {
                 HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
                 System.out.println("response : "+response.body());
-                 googleResponseData = new Gson().fromJson(response.body(), GoogleResponseData.class);
+                 googleResponseData = gson.fromJson(response.body(), GoogleResponseData.class);
 
 
 
@@ -125,8 +130,55 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public String tokenGenerator() {
-        return null;
-    }
+
+
+            try {
+                // URL and form data
+                URL url = new URL("https://oauth2.googleapis.com/token");
+                String formData = "client_id="+accessTokenDetails.getClientId()+"&client_secret="+accessTokenDetails.getClientSecret()+"&grant_type="+accessTokenDetails.getGrantType()+"&refresh_token="+accessTokenDetails.getRefreshToken();
+
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Set the request method to POST
+                connection.setRequestMethod("POST");
+
+                // Enable input and output streams
+                connection.setDoOutput(true);
+
+                // Set content type
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                // Encode the form data
+                byte[] postData = formData.getBytes("UTF-8");
+
+                // Get the output stream and write the form data to it
+                OutputStream os = connection.getOutputStream();
+                os.write(postData);
+
+                // Read the response
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+                AccessTokenResponse accessTokenResponse = gson.fromJson(response.toString(), AccessTokenResponse.class);
+
+                System.out.println("Access Token : "+accessTokenResponse.toString());
+                return accessTokenResponse.getAccess_token();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return  null;
+
+        }
+
 
 
 }
