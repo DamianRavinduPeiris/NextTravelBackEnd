@@ -10,4 +10,5 @@ public interface UploadService {
     ResponseEntity<Resource> getImage(String imagePath);
     ResponseEntity<Response> uploadToGDrive(String imagePath);
     String tokenGenerator();
+    void updateAccess();
 }

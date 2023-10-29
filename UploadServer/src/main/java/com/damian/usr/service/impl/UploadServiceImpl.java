@@ -39,6 +39,8 @@ public class UploadServiceImpl implements UploadService {
     AccessTokenDetails accessTokenDetails;
     @Autowired
     private Gson gson;
+    private String fileID;
+    private String accessToken;
     @Override
     public String handleUploads(MultipartFile imageFile) {
         // Getting the file name.
@@ -122,8 +124,9 @@ public class UploadServiceImpl implements UploadService {
             }
             response.setStatusCode(HttpStatus.OK.value());
             response.setMessage("Image Uploaded Successfully");
-
-            response.setData("https://drive.google.com/uc?id="+googleResponseData.getId());
+            fileID = googleResponseData.getId();
+            updateAccess();
+            response.setData("https://drive.google.com/uc?id="+fileID);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
@@ -179,6 +182,46 @@ public class UploadServiceImpl implements UploadService {
 
         }
 
+    @Override
+    public void updateAccess() {
+        try {
+
+            String accessToken = tokenGenerator();
+
+            URL url = new URL("https://www.googleapis.com/drive/v3/files/" + fileID + "/permissions");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+
+            String jsonInputString = "{"
+                    + "\"type\": \"anyone\","
+                    + "\"role\": \"reader\""
+                    + "}";
+
+            connection.setDoOutput(true);
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            // Get the response
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                System.out.println(response.toString());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }
