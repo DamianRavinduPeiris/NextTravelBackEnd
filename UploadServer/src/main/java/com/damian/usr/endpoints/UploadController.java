@@ -1,6 +1,5 @@
 package com.damian.usr.endpoints;
 
-import com.damian.usr.service.GoogleDriveUploader;
 import com.damian.usr.service.custom.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,22 +31,14 @@ public class UploadController {
         return uploadService.getImage(imagePath);
     }
 
-    @PostMapping(path = "/uploadToDrive", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String driveUploader(@RequestParam("imageFile") MultipartFile imageFile) {
-        try {
-            java.io.File file = convertMultipartFileToFile(imageFile);
-            return GoogleDriveUploader.uploadFile(file);
-        } catch (Exception e) {
-            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
-        }
-    }
+
 
     private java.io.File convertMultipartFileToFile(MultipartFile file)  {
         java.io.File convertedFile = new java.io.File(file.getOriginalFilename());
         try {
             file.transferTo(convertedFile);
         } catch (IOException e) {
-            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+            throw new RuntimeException("Could not convert multipartFile to file : "+e.getLocalizedMessage());
         }
         return convertedFile;
     }

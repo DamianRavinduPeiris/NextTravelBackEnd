@@ -1,5 +1,8 @@
 package com.damian.usr.service;
 
+import com.damian.usr.response.GoogleResponseData;
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class UploadBasic {
+public class UploadToGDrive {
     public static void main(String[] args) {
         String filePath = "C:\\Users\\Damian Peiris\\Downloads\\pinkpanther.png";
 
@@ -35,7 +38,9 @@ public class UploadBasic {
         try {
             HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
             System.out.println("response : "+response.body());
-            String link = "https://drive.google.com/uc?id="+response.body().split("\"")[3]+"&export=download";
+            GoogleResponseData googleResponseData = new Gson().fromJson(response.body(), GoogleResponseData.class);
+            System.out.println("Link : "+"https://drive.google.com/uc?id="+googleResponseData.getId());
+
 
         } catch (IOException e) {
             throw new RuntimeException("Server threw an IOException : "+e.getLocalizedMessage());
