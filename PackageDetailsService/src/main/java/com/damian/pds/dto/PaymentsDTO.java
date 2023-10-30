@@ -1,7 +1,7 @@
-package com.damian.ps.dto;
+package com.damian.pds.dto;
 
 
-import com.damian.ps.dto.superdto.SuperDTO;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.validation.Valid;
@@ -11,14 +11,16 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Component
 
-public class PaymentsDTO implements SuperDTO, Serializable {
+public class PaymentsDTO implements  Serializable {
     @Valid
     @GeneratedValue(strategy = GenerationType.UUID)
     private String paymentId;

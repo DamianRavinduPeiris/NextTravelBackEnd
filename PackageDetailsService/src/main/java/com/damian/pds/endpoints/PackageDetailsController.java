@@ -1,6 +1,8 @@
 package com.damian.pds.endpoints;
 
 import com.damian.pds.dto.PackageDetailsDTO;
+import com.damian.pds.dto.PaymentsDTO;
+import com.damian.pds.interfaces.PaymentsInterface;
 import com.damian.pds.response.Response;
 import com.damian.pds.service.custom.PackageDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,20 @@ import org.springframework.web.bind.annotation.*;
 public class PackageDetailsController {
     @Autowired
     private PackageDetailsService packageDetailsService;
+    @Autowired
+    private PaymentsInterface paymentsInterface;
+    @Autowired
+    private PaymentsDTO paymentsDTO;
 
     @PostMapping(path = "/savePackageDetails", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> add(@RequestBody PackageDetailsDTO packageDetailsDTO) {
+        paymentsDTO.setPaymentId("");
+        paymentsDTO.setUserId(packageDetailsDTO.getUserId());
+        paymentsDTO.setPackageDetailsId(packageDetailsDTO.getPackageDetailsId());
+        paymentsDTO.setPaymentDate(packageDetailsDTO.getStartDate().toString());
+        paymentsDTO.setPaymentAmount(packageDetailsDTO.getPaidValue());
+        paymentsDTO.setPaymentImageLocation("");
+        paymentsInterface.savePayment(paymentsDTO);
         return packageDetailsService.add(packageDetailsDTO);
 
     }
