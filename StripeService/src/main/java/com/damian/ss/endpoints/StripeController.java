@@ -22,9 +22,9 @@ public class StripeController {
     private ChargeResponse chargeResponse;
 
     @PostMapping(path = "/charge")
-    public ChargeResponse charge(ChargeRequest chargeRequest, Model model){
+    public String charge(ChargeRequest chargeRequest, Model model){
         try {
-            chargeRequest.setDescription("NextTravel Bookings - Damian Peiris..");
+            chargeRequest.setDescription("NextTravel Bookings - Damian Peiris.");
             chargeRequest.setCurrency(ChargeRequest.Currency.LKR);
             Charge charge = paymentsService.charge(chargeRequest);
             model.addAttribute("id", charge.getId());
@@ -38,7 +38,8 @@ public class StripeController {
             chargeResponse.setChargeDescription(charge.getDescription());
             chargeResponse.setChargeCurrency(charge.getCurrency());
             chargeResponse.setChargeAmount(charge.getAmount().toString());
-            return chargeResponse;
+
+            return "Response";
         } catch (Exception e) {
             throw new RuntimeException("StripeService failed to charge card  : "+e.getLocalizedMessage());
         }
