@@ -1,6 +1,7 @@
 package com.damian.ss.endpoints;
 
 import com.damian.ss.entity.ChargeRequest;
+import com.damian.ss.entity.ChargeResponse;
 import com.damian.ss.service.StripeService;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ public class StripeController {
 
     @Autowired
     private StripeService paymentsService;
+    @Autowired
+    private ChargeResponse chargeResponse;
 
     @PostMapping(path = "/charge")
-    public String charge(ChargeRequest chargeRequest, Model model){
+    public ChargeResponse charge(ChargeRequest chargeRequest, Model model){
         try {
-            chargeRequest.setDescription("Example charge");
+            chargeRequest.setDescription("NextTravel Bookings - Damian Peiris..");
             chargeRequest.setCurrency(ChargeRequest.Currency.LKR);
             Charge charge = paymentsService.charge(chargeRequest);
             model.addAttribute("id", charge.getId());
@@ -29,15 +32,16 @@ public class StripeController {
             model.addAttribute("chargeId", charge.getId());
             model.addAttribute("balance_transaction",
             charge.getBalanceTransaction());
-            System.out.println("Charge Id : "+charge.getId());
-            System.out.println("Charge Status : "+charge.getStatus());
-            System.out.println("Charge Balance Transaction : "+charge.getBalanceTransaction());
-            System.out.println("Charge Description : "+charge.getDescription());
-            System.out.println("Charge Currency : "+charge.getCurrency());
-            System.out.println("Charge Amount : "+charge.getAmount());
+            chargeResponse.setChargeId(charge.getId());
+            chargeResponse.setChargeStatus(charge.getStatus());
+            chargeResponse.setChargeBalanceTransaction(charge.getBalanceTransaction());
+            chargeResponse.setChargeDescription(charge.getDescription());
+            chargeResponse.setChargeCurrency(charge.getCurrency());
+            chargeResponse.setChargeAmount(charge.getAmount().toString());
+            return chargeResponse;
         } catch (Exception e) {
             throw new RuntimeException("StripeService failed to charge card  : "+e.getLocalizedMessage());
         }
-        return "result";
+
     }
 }
