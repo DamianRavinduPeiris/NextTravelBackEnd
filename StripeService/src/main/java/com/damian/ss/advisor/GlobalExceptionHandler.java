@@ -4,8 +4,10 @@ package com.damian.ss.advisor;
 
 
 import com.damian.ss.response.Response;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +28,11 @@ public class GlobalExceptionHandler {
         response.setData(null);
         return response;
 
+    }
+    @ExceptionHandler(StripeException.class)
+    public String handleError(Model model, StripeException ex) {
+        model.addAttribute("error", ex.getMessage());
+        return "result";
     }
 
     /*Validation Exception Handling.*/
