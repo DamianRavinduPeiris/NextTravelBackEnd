@@ -54,8 +54,6 @@ public class PackageDetailsDTO implements Serializable {
     private String userId;
     @Positive
     private double paidValue;
-    @NotNull(message = "Payment Image Location cannot be null.")
-    @NotBlank(message = "Payment Image Location cannot be blank.")
     private String paymentImageLocation;
 
 

@@ -22,19 +22,20 @@ import java.io.Serializable;
 
 public class PaymentsDTO implements  Serializable {
     @Valid
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String paymentId;
     @NotNull(message = "User Id cannot be null.")
     @NotBlank(message = "User Id cannot be blank.")
     private String userId;
+    @NotNull(message = "Package Details Id cannot be null.")
+    @NotBlank(message = "Package Details Id cannot be blank.")
     private String packageDetailsId;
     @NotNull(message = "Payment Date cannot be null.")
     @NotBlank(message = "Payment Date cannot be blank.")
     private String paymentDate;
     @Positive(message = "Value cannot be negative.")
     private double paymentAmount;
-    @NotNull(message = "Payment Image cannot be null.")
-    @NotBlank(message = "Payment Image cannot be blank.")
+    @NotNull(message = "Payment Image Location cannot be null.")
+    @NotBlank(message = "Payment Image Location cannot be blank.")
     private String paymentImageLocation;
 
 }

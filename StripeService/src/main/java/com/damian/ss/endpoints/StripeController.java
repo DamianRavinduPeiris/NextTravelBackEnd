@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
@@ -43,7 +42,7 @@ public class StripeController {
             chargeResponse.setChargeCurrency(charge.getCurrency());
             chargeResponse.setChargeAmount(charge.getAmount().toString());
 
-            return "response";
+            return "Response";
         } catch (Exception e) {
             throw new RuntimeException("StripeService failed to charge card  : "+e.getLocalizedMessage());
         }

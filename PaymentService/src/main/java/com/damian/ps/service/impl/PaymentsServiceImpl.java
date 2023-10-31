@@ -93,4 +93,9 @@ public class PaymentsServiceImpl implements PaymentService {
         response.setData(data);
         return new ResponseEntity<>(response, HttpStatus.valueOf(code));
     }
+
+    @Override
+    public String findByPackageDetailsId(String packageDetailsId) {
+        return paymentsRepo.findByPackageDetailsId(packageDetailsId).getPaymentId();
+    }
 }

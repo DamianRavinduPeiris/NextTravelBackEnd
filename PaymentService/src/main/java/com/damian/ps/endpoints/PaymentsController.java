@@ -40,4 +40,9 @@ public class PaymentsController {
         return paymentService.getAll();
 
     }
+    @GetMapping(path = "/findByPID",params = "pID")
+    public String getPaymentBypID(@RequestParam("pID")String pid){
+        return paymentService.findByPackageDetailsId(pid);
+
+    }
 }

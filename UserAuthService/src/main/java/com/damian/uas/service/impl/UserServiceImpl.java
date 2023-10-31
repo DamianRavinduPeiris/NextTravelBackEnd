@@ -258,4 +258,38 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
 
     }
+
+    @Override
+    public ResponseEntity<Response> deletePackageDetailsId(String uId, String pId) {
+        Optional<User> user = userRepo.findById(uId);
+        if(user.isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
+
+        }
+        user.get().getPackageDetailsIDList().remove(pId);
+        return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
+    }
+
+    @Override
+    public ResponseEntity<Response> savePaymentsId(String uId, String pId) {
+        Optional<User> user = userRepo.findById(uId);
+        if(user.isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
+        }
+        user.get().getPaymentsIDList().add(pId);
+        userRepo.save(user.get());
+        return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
+    }
+
+    @Override
+    public ResponseEntity<Response> deletePaymentsId(String uId, String pId) {
+        Optional<User> user = userRepo.findById(uId);
+        if(user.isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
+        }
+        user.get().getPaymentsIDList().remove(pId);
+        userRepo.save(user.get());
+        return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
+
+    }
 }

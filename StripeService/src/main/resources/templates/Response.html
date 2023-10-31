@@ -24,6 +24,11 @@
 <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Tilt+Warp&display=swap"
       rel="stylesheet">
+<!--JQuery.-->
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<!--Axios.-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 
 <head>
@@ -86,7 +91,37 @@
 </div>
 
 
+<script >
+    $(document).ready(()=>{
+        let auth ={
 
+            "Authorization" : "Bearer "+JSON.parse(localStorage.getItem("userAuthToken"))
+        }
+        let pd = JSON.parse(localStorage.getItem("packageDetails"))
+        var amount = JSON.parse(localStorage.getItem("amount"));
+        pd.paidValue = parseInt(amount);
+
+        axios.post("http://localhost:8087/savePackageDetails",pd,{headers:auth})
+            .then((res)=>{
+                console.log(res.data)
+                if(res.data.statusCode === 201){
+                    return swal("Success", "Payment successfull, Check your Mailbox!", "success");
+
+                }
+
+
+            })
+            .catch((er)=>{
+                console.log(er.responseJSON.message)
+                return swal("OOPS!", "Server threw an exception : " + er.responseJSON.message, "error");
+
+            })
+
+
+
+    })
+
+</script>
 
 
 </body>

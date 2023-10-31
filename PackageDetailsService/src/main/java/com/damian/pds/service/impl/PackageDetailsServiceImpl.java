@@ -1,7 +1,9 @@
 package com.damian.pds.service.impl;
 
 import com.damian.pds.dto.PackageDetailsDTO;
+import com.damian.pds.dto.PaymentsDTO;
 import com.damian.pds.entity.PackageDetails;
+import com.damian.pds.interfaces.PaymentsInterface;
 import com.damian.pds.interfaces.UserInterface;
 import com.damian.pds.repo.PackageDetailsRepo;
 import com.damian.pds.response.Response;
@@ -34,6 +36,12 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     @Autowired
     private UserInterface userInterface;
 
+    private String packageDetailsId;
+    @Autowired
+    private PaymentsInterface paymentsInterface;
+    @Autowired
+    private PaymentsDTO paymentsDTO;
+
     
 
     @Override
@@ -41,10 +49,21 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
         if(search(packageDetailsDTO.getPackageDetailsId()).getBody().getData() == null){
             packageDetailsDTO.setPackageDetailsId(generateId());
             packageDetailsRepo.save(mapper.map(packageDetailsDTO, PackageDetails.class));
-            System.out.println("USER ID "+packageDetailsDTO.getUserId());
-            System.out.println("PACKAGE DETAILS  ID "+packageDetailsDTO.getPackageDetailsId());
+            /*Updating Users PD list.*/
             userInterface.updatePackageDetailsID(packageDetailsDTO.getUserId(),packageDetailsDTO.getPackageDetailsId());
-            return createAndSendResponse(HttpStatus.CREATED.value(), "PackageDetails Created Successfully!",null);
+            /*Updating Payments.*/
+            paymentsDTO.setPaymentId("");
+            paymentsDTO.setUserId(packageDetailsDTO.getUserId());
+            paymentsDTO.setPackageDetailsId(packageDetailsId);
+            paymentsDTO.setPaymentDate(packageDetailsDTO.getStartDate().toString());
+            paymentsDTO.setPaymentAmount(packageDetailsDTO.getPaidValue());
+            paymentsDTO.setPaymentImageLocation(packageDetailsDTO.getPaymentImageLocation());
+            paymentsInterface.savePayment(paymentsDTO);
+            /*Updating Users Payments list.*/
+            String paymentBypID = paymentsInterface.getPaymentBypID(packageDetailsId);
+            System.out.println("Payment ID: "+paymentBypID);
+            userInterface.updatePaymentsID(packageDetailsDTO.getUserId(),paymentBypID);
+            return createAndSendResponse(HttpStatus.CREATED.value(), "PackageDetails Saved Successfully!",null);
 
         }
         return createAndSendResponse(HttpStatus.CONFLICT.value(), "PackageDetails Already Exists!",null);
@@ -56,6 +75,14 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
 
         if(search(packageDetailsDTO.getPackageDetailsId()).getBody().getData() != null){
             packageDetailsRepo.save(mapper.map(packageDetailsDTO, PackageDetails.class));
+            /*Updating Payments.*/
+            paymentsDTO.setPaymentId(paymentsInterface.getPaymentBypID(packageDetailsDTO.getPackageDetailsId()));
+            paymentsDTO.setUserId(packageDetailsDTO.getUserId());
+            paymentsDTO.setPackageDetailsId(packageDetailsDTO.getPackageDetailsId());
+            paymentsDTO.setPaymentDate(packageDetailsDTO.getStartDate().toString());
+            paymentsDTO.setPaymentAmount(packageDetailsDTO.getPaidValue());
+            paymentsDTO.setPaymentImageLocation(packageDetailsDTO.getPaymentImageLocation());
+            paymentsInterface.updatePayment(paymentsDTO);
             return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Updated Successfully!",null);
 
         }
@@ -75,12 +102,15 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     }
 
     @Override
-    public ResponseEntity<Response> delete(String s) {
+    public ResponseEntity<Response> delete(String s,String uid) {
         if(search(s).getBody().getData() == null){
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "PackageDetails Not Found!",null);
 
         }
         packageDetailsRepo.deleteById(s);
+        paymentsInterface.deletePayment(paymentsInterface.getPaymentBypID(s));
+        userInterface.deletePID(uid,s);
+        userInterface.deletePaymentsID(uid,paymentsInterface.getPaymentBypID(s));
         return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Deleted Successfully!",null);
 
 
@@ -145,6 +175,9 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
 
     @Override
     public String generateId() {
-        return  "NEXT" +  Generators.randomBasedGenerator().generate().toString();
+        packageDetailsId =   "NEXT" +  Generators.randomBasedGenerator().generate().toString();
+        return packageDetailsId;
     }
+
+
 }

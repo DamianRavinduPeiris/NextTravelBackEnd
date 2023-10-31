@@ -70,6 +70,23 @@ public class UserController {
 
     }
 
+    @DeleteMapping(path ="/deletePID",params = {"uID","pID"},produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePID(@RequestParam("uID") String uID,@RequestParam("pID") String pID){
+        return userService.deletePackageDetailsId(uID,pID);
+
+    }
+    @PostMapping(path = "/updatePaymentsID",produces = MediaType.APPLICATION_JSON_VALUE,params = {"uId","pId"})
+    public ResponseEntity<Response>updatePaymentsID(@RequestParam("uId") String uId,@RequestParam("pId") String pId){
+        return userService.savePaymentsId(uId,pId);
+
+    }
+
+    @DeleteMapping(path ="/deletePaymentsID",params = {"uID","pID"},produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePaymentsID(@RequestParam("uID") String uID,@RequestParam("pID") String pID){
+        return userService.deletePaymentsId(uID,pID);
+
+    }
+
 
 
 }

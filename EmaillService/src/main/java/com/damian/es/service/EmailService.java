@@ -72,22 +72,17 @@ public class EmailService {
                 "Damian Peiris - Team NextTravel.";
 
         try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            helper.setSubject("NextTravel - Booking Confirmation!");
-            helper.setFrom("drpeiris3.edu@gmail.com");
-            helper.setTo(packageDetails.getEmail());
-            helper.setText(body);
-
-            FileSystemResource file = new FileSystemResource(new File(packageDetails.getPaymentImageLocation()));
-            helper.addAttachment("PaymentProof.png", file);
-
-            mailSender.send(mimeMessage);
-        } catch (MailException | MessagingException e) {
-            throw new RuntimeException("An error occurred while sending the email! :" + e.getLocalizedMessage());
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("drpeiris3.edu@gmail.com");
+            message.setSubject("NextTravel - Booking Confirmation!");
+            message.setTo(packageDetails.getEmail());
+            message.setText(body);
+            mailSender.send(message);
+        } catch (MailException exception){
+            throw new RuntimeException("An error occurred while sending the email! :" + exception.getLocalizedMessage());
         }
 
-        // Assuming you have a 'response' object defined elsewhere
+
         response.setStatusCode(200);
         response.setMessage("Email sent successfully");
         response.setData(null);
