@@ -5,13 +5,16 @@ import com.damian.ss.entity.ChargeResponse;
 import com.damian.ss.service.StripeService;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.time.LocalDateTime;
+
+@Controller
 @RequestMapping()
 @CrossOrigin
 public class StripeController {
@@ -30,8 +33,9 @@ public class StripeController {
             model.addAttribute("id", charge.getId());
             model.addAttribute("status", charge.getStatus());
             model.addAttribute("chargeId", charge.getId());
-            model.addAttribute("balance_transaction",
-            charge.getBalanceTransaction());
+            model.addAttribute("date", LocalDateTime.now());
+            model.addAttribute("email",chargeRequest.getStripeEmail());
+            model.addAttribute("amount",chargeRequest.getAmount());
             chargeResponse.setChargeId(charge.getId());
             chargeResponse.setChargeStatus(charge.getStatus());
             chargeResponse.setChargeBalanceTransaction(charge.getBalanceTransaction());
@@ -39,7 +43,7 @@ public class StripeController {
             chargeResponse.setChargeCurrency(charge.getCurrency());
             chargeResponse.setChargeAmount(charge.getAmount().toString());
 
-            return "Response";
+            return "response";
         } catch (Exception e) {
             throw new RuntimeException("StripeService failed to charge card  : "+e.getLocalizedMessage());
         }
