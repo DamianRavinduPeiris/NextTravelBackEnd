@@ -30,7 +30,7 @@ public class PackageDetailsDTO implements SuperDTO, Serializable {
     @NotNull(message = "Vehicle ID cannot be null.")
     @NotBlank(message = "Vehicle ID cannot be blank.")
     private String vehicleId;
-        private Date startDate;
+    private Date startDate;
     private Date endDate;
     @Positive(message = "Value cannot be negative.")
     private int noOfDays;

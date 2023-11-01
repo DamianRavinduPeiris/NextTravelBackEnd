@@ -51,4 +51,8 @@ public class PackageDetailsController {
         return packageDetailsService.deletePackageDetailsByUser(userId);
 
     }
+    @DeleteMapping(path = "/deletePD",params = "pID",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePD(@RequestParam("pID")String pID){
+        return packageDetailsService.deletePD(pID);
+    }
 }

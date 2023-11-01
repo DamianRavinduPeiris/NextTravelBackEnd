@@ -24,9 +24,9 @@ public class PaymentsController {
         return paymentService.update(paymentsDTO);
 
     }
-    @DeleteMapping(path = "/deletePayment",params = "paymentID",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response>deletePayment(@RequestParam("paymentID") String paymentID){
-        return paymentService.delete(paymentID);
+    @DeleteMapping(path = "/deletePayment",params = {"paymentID","userID","pdID"},produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePayment(@RequestParam("paymentID") String paymentID,@RequestParam("userID") String userID,@RequestParam("pdID") String pdID){
+        return paymentService.delete(paymentID,userID,pdID);
 
     }
 
@@ -43,6 +43,11 @@ public class PaymentsController {
     @GetMapping(path = "/findByPID",params = "pID")
     public String getPaymentBypID(@RequestParam("pID")String pid){
         return paymentService.findByPackageDetailsId(pid);
+
+    }
+    @DeleteMapping(path = "/deletePaymentOnly",params = "pID",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePaymentOnly(@RequestParam("pID") String pID){
+        return paymentService.deletePayment(pID);
 
     }
 }

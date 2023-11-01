@@ -2,6 +2,8 @@ package com.damian.ps.service.impl;
 
 import com.damian.ps.dto.PaymentsDTO;
 import com.damian.ps.entity.Payments;
+import com.damian.ps.interfaces.PackageDetailsInterface;
+import com.damian.ps.interfaces.UserInterface;
 import com.damian.ps.repo.PaymentsRepo;
 import com.damian.ps.response.Response;
 import com.damian.ps.service.custom.PaymentService;
@@ -25,6 +27,10 @@ public class PaymentsServiceImpl implements PaymentService {
     private ModelMapper mapper;
     @Autowired
     private PaymentsRepo paymentsRepo;
+    @Autowired
+    private UserInterface userInterface;
+    @Autowired
+    private PackageDetailsInterface packageDetailsInterface;
 
     @Override
     public ResponseEntity<Response> add(PaymentsDTO paymentsDTO) {
@@ -53,6 +59,8 @@ public class PaymentsServiceImpl implements PaymentService {
     @Override
     public ResponseEntity<Response> search(String s) {
         Optional<Payments> payments = paymentsRepo.findById(s);
+        System.out.println("PID : "+s);
+        System.out.println(payments.toString());
         if (payments.isPresent()) {
             return createAndSendResponse(HttpStatus.OK.value(), "Payment found", mapper.map(payments.get(), PaymentsDTO.class));
 
@@ -61,9 +69,12 @@ public class PaymentsServiceImpl implements PaymentService {
     }
 
     @Override
-    public ResponseEntity<Response> delete(String s) {
+    public ResponseEntity<Response> delete(String s,String uId,String pdId) {
         if (search(s).getBody().getData() != null) {
             paymentsRepo.deleteById(s);
+            userInterface.deletePaymentsID(uId,s);
+            userInterface.deletePID(uId,pdId);
+            packageDetailsInterface.deletePD(pdId);
             return createAndSendResponse(HttpStatus.OK.value(), "Payment successfully deleted!", null);
         }
 
@@ -97,5 +108,15 @@ public class PaymentsServiceImpl implements PaymentService {
     @Override
     public String findByPackageDetailsId(String packageDetailsId) {
         return paymentsRepo.findByPackageDetailsId(packageDetailsId).getPaymentId();
+    }
+
+    @Override
+    public ResponseEntity<Response> deletePayment(String pID) {
+        if(paymentsRepo.findById(pID).isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "Payment Not Found!",null);
+
+        }
+        paymentsRepo.deleteById(pID);
+        return createAndSendResponse(HttpStatus.OK.value(), "Payment Deleted Successfully!",null);
     }
 }

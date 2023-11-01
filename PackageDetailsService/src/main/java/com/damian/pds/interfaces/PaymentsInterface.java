@@ -15,6 +15,6 @@ public interface PaymentsInterface {
     public String getPaymentBypID(@RequestParam("pID")String pid);
     @PutMapping(path = "/updatePayment",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response>updatePayment(@RequestBody PaymentsDTO paymentsDTO);
-    @DeleteMapping(path = "/deletePayment",params = "paymentID",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response>deletePayment(@RequestParam("paymentID") String paymentID);
+    @DeleteMapping(path = "/deletePaymentOnly",params = "pID",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePaymentOnly(@RequestParam("pID") String pID);
 }

@@ -42,6 +42,7 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     @Autowired
     private PaymentsDTO paymentsDTO;
 
+
     
 
     @Override
@@ -93,7 +94,7 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     public ResponseEntity<Response> search(String s) {
         Optional<PackageDetails> pack = packageDetailsRepo.findById(s);
         if(pack.isPresent()){
-            return createAndSendResponse(HttpStatus.FOUND.value(), "PackageDetails Retrieved successfully!",mapper.map(pack.get(),PackageDetailsDTO.class));
+            return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Retrieved successfully!",mapper.map(pack.get(),PackageDetailsDTO.class));
 
         }
         return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "PackageDetails Not Found!",null);
@@ -108,7 +109,7 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
 
         }
         packageDetailsRepo.deleteById(s);
-        paymentsInterface.deletePayment(paymentsInterface.getPaymentBypID(s));
+        paymentsInterface.deletePaymentOnly(paymentsInterface.getPaymentBypID(s));
         userInterface.deletePID(uid,s);
         userInterface.deletePaymentsID(uid,paymentsInterface.getPaymentBypID(s));
         return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Deleted Successfully!",null);
@@ -128,7 +129,7 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
             packageDetailsDTOList.add(mapper.map(p,PackageDetailsDTO.class));
 
         });
-        return createAndSendResponse(HttpStatus.FOUND.value(), "PackageDetails Retrieved Successfully!",packageDetailsDTOList);
+        return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Retrieved Successfully!",packageDetailsDTOList);
 
 
     }
@@ -177,6 +178,16 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
     public String generateId() {
         packageDetailsId =   "NEXT" +  Generators.randomBasedGenerator().generate().toString();
         return packageDetailsId;
+    }
+
+    @Override
+    public ResponseEntity<Response> deletePD(String packageDetailsId) {
+        if(packageDetailsRepo.findById(packageDetailsId).isEmpty()){
+            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "PackageDetails Not Found!",null);
+
+        }
+        packageDetailsRepo.deleteById(packageDetailsId);
+        return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Deleted Successfully!",null);
     }
 
 

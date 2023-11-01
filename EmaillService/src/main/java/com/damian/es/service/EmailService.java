@@ -38,6 +38,7 @@ public class EmailService {
         message.setFrom("drpeiris3.edu@gmail.com");
         message.setTo(email.getToEmail());
         message.setText(body);
+        message.setSubject("NextTravel - Welcome Aboard!");
         mailSender.send(message);
         response.setStatusCode(200);
         response.setMessage("Email sent successfully");

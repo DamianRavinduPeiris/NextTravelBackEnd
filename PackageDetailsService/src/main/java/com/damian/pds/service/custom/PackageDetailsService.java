@@ -9,6 +9,7 @@ public interface PackageDetailsService extends SuperService<PackageDetailsDTO,St
     ResponseEntity<Response>getPackageDetailsByUser(String userId);
     ResponseEntity<Response>deletePackageDetailsByUser(String userId);
     String generateId();
+    ResponseEntity<Response>deletePD(String packageDetailsId);
 
 
 }
