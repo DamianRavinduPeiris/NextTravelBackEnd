@@ -9,4 +9,5 @@ import org.springframework.http.ResponseEntity;
 public interface PaymentService extends SuperService<PaymentsDTO,String> {
     String findByPackageDetailsId(String packageDetailsId);
     ResponseEntity<Response>deletePayment(String pID);
+    ResponseEntity<Response>deletePaymentsByUser(String userId);
 }

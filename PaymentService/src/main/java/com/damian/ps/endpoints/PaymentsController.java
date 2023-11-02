@@ -50,4 +50,9 @@ public class PaymentsController {
         return paymentService.deletePayment(pID);
 
     }
+    @DeleteMapping(path = "/deletePaymentByUser",params = "userId",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response>deletePaymentsByUser(@RequestParam("userId") String userId){
+        return paymentService.deletePaymentsByUser(userId);
+
+    }
 }

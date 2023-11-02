@@ -4,6 +4,8 @@ import com.damian.uas.config.JWTService;
 import com.damian.uas.dto.UserDTO;
 import com.damian.uas.dto.CustomUpdaterDTO;
 import com.damian.uas.entity.User;
+import com.damian.uas.interfaces.PackageDetailsInterface;
+import com.damian.uas.interfaces.PaymentsInterface;
 import com.damian.uas.repo.UserRepo;
 import com.damian.uas.response.Response;
 import com.damian.uas.service.custom.UserService;
@@ -42,6 +44,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JWTService jwtService;
+    @Autowired
+    private PackageDetailsInterface packageDetailsInterface;
+    @Autowired
+    private PaymentsInterface paymentsInterface;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -94,6 +100,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
 
         }
+        packageDetailsInterface.deletePackageDetailsByUser(s);
+        paymentsInterface.deletePaymentsByUser(s);
         userRepo.deleteById(s);
         return createAndSendResponse(HttpStatus.OK.value(), "User successfully deleted!", null);
 

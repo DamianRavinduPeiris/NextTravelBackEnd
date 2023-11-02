@@ -119,4 +119,15 @@ public class PaymentsServiceImpl implements PaymentService {
         paymentsRepo.deleteById(pID);
         return createAndSendResponse(HttpStatus.OK.value(), "Payment Deleted Successfully!",null);
     }
+
+    @Override
+    public ResponseEntity<Response> deletePaymentsByUser(String userId) {
+        List<Payments> payments = paymentsRepo.findByUserId(userId);
+        if(payments.isEmpty()){
+            return createAndSendResponse(HttpStatus.OK.value(), "Payments Not Found!",null);
+
+        }
+        paymentsRepo.deleteAll(payments);
+        return createAndSendResponse(HttpStatus.OK.value(), "Payments Deleted Successfully!",null);
+    }
 }

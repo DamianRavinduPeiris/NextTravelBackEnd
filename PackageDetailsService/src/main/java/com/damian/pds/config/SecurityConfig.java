@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .requestMatchers("/**").hasAnyAuthority("packageDetailsAdmin","user","paymentsAdmin")
+                .requestMatchers("/**").hasAnyAuthority("packageDetailsAdmin","user","paymentsAdmin","userAdmin")
                 .anyRequest().permitAll()
 
                 .and()

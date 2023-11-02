@@ -161,9 +161,10 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
 
     @Override
     public ResponseEntity<Response> deletePackageDetailsByUser(String userId) {
+        System.out.println("service: "+userId);
         List<PackageDetails> packs = packageDetailsRepo.findByUserId(userId);
         if(packs.isEmpty()){
-            return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "No PackageDetails found to delete!",null);
+            return createAndSendResponse(HttpStatus.OK.value(), "No PackageDetails found to delete!",null);
 
         }
         packs.forEach((p)->{

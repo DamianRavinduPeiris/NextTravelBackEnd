@@ -5,6 +5,7 @@ import com.damian.gs.entity.superentity.SuperEntity;
 import com.damian.gs.enums.GENDER;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "guide")
 public class Guide implements SuperEntity {
     @Id
+
     private String guideId;
     private String guideName;
     private String guideAddress;

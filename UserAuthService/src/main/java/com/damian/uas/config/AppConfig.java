@@ -2,6 +2,7 @@ package com.damian.uas.config;
 
 
 import com.damian.uas.service.impl.UserServiceImpl;
+import feign.RequestInterceptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AppConfig {
     @Autowired
     private UserServiceImpl userService;
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
+            requestTemplate.header("Authorization", "Bearer " + JWTAuthFilter.JWT_TOKEN);
+        };
+    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
