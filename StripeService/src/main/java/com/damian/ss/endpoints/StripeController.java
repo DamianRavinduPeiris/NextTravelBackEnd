@@ -25,9 +25,14 @@ public class StripeController {
 
     @PostMapping(path = "/charge")
     public String charge(ChargeRequest chargeRequest, Model model){
+        System.out.println("Amount : "+chargeRequest.getAmount());
         try {
             chargeRequest.setDescription("NextTravel Bookings - Damian Peiris.");
             chargeRequest.setCurrency(ChargeRequest.Currency.LKR);
+
+
+
+            chargeRequest.setAmount(chargeRequest.getAmount()*100);
             Charge charge = paymentsService.charge(chargeRequest);
             model.addAttribute("id", charge.getId());
             model.addAttribute("status", charge.getStatus());
