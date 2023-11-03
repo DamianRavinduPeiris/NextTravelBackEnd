@@ -25,10 +25,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Tilt+Warp&display=swap"
       rel="stylesheet">
 <!--JQuery.-->
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script crossorigin="anonymous" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <!--Axios.-->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 
 
 <head>
@@ -36,7 +36,7 @@
     <title>Payment Receipt.</title>
     <style>
 
-        .flexBox{
+        .flexBox {
             margin-top: 5rem;
             display: flex;
             justify-content: center;
@@ -45,14 +45,17 @@
             align-items: center;
 
         }
-        .text{
+
+        .text {
             text-align: center;
-            font-family: Tilt Warp,serif;
+            font-family: Tilt Warp, serif;
         }
-        #pID,#date,#email,#chargeID,#amount{
+
+        #pID, #date, #email, #chargeID, #amount {
             width: 30vw;
         }
-        h3{
+
+        h3 {
             margin-top: 2rem;
         }
 
@@ -63,110 +66,39 @@
     <h1 class="text">Payment Report.</h1>
 
     <div class="mb-3">
-        <label for="date" class="form-label">Date.</label>
-        <input type="text" class="form-control" id="date" placeholder="" disabled th:value="${date}">
+        <label class="form-label" for="date">Date.</label>
+        <input class="form-control" disabled id="date" placeholder="" th:value="${date}" type="text">
     </div>
     <div class="mb-3">
-        <label for="pID" class="form-label">Payment ID.</label>
-        <input type="text" class="form-control" id="pID" placeholder="" disabled th:value="${id}">
+        <label class="form-label" for="pID">Payment ID.</label>
+        <input class="form-control" disabled id="pID" placeholder="" th:value="${id}" type="text">
     </div>
     <div class="mb-3">
-        <label for="amount" class="form-label">Amount in LKR.</label>
-        <input type="text" class="form-control" id="amount" placeholder="" disabled th:value="${amount}">
+        <label class="form-label" for="amount">Amount in LKR.</label>
+        <input class="form-control" disabled id="amount" placeholder="" th:value="${amount}" type="text">
     </div>
     <div class="mb-3">
-        <label for="email" class="form-label">Email.</label>
-        <input type="email" class="form-control" id="email" placeholder="" disabled th:value="${email}">
+        <label class="form-label" for="email">Email.</label>
+        <input class="form-control" disabled id="email" placeholder="" th:value="${email}" type="email">
     </div>
     <div class="mb-3">
-        <label for="chargeID" class="form-label">Charge ID.</label>
-        <input type="text" class="form-control" id="chargeID" placeholder="" disabled th:value="${chargeId}">
+        <label class="form-label" for="chargeID">Charge ID.</label>
+        <input class="form-control" disabled id="chargeID" placeholder="" th:value="${chargeId}" type="text">
     </div>
 
 
     <h3 class="text">Thank your for your payment!</h3>
 
 
-
 </div>
+<script>
 
 
-<script >
-    $(document).ready(()=>{
-        let auth ={
-
-            "Authorization" : "Bearer "+JSON.parse(localStorage.getItem("userAuthToken"))
-        }
-        let pd = JSON.parse(localStorage.getItem("packageDetails"))
-        var amount = JSON.parse(localStorage.getItem("amount"));
-        pd.paidValue = parseInt(amount);
-
-        axios.post("http://localhost:8087/savePackageDetails",pd,{headers:auth})
-            .then((res)=>{
-                console.log(res.data)
-                if(res.data.statusCode === 201){
-                    showConfetti();
-                    return swal("Success", "Payment successfull, Check your Mailbox!", "success");
-
-                }
-
-
-            })
-            .catch((er)=>{
-                console.log(er.responseJSON.message)
-                return swal("OOPS!", "Server threw an exception : " + er.responseJSON.message, "error");
-
-            })
-
-
-
-    })
-
-    function showConfetti(){
-        const count = 200,
-            defaults = {
-                origin: { y: 0.7 },
-            };
-
-        function fire(particleRatio, opts) {
-            confetti(
-                Object.assign({}, defaults, opts, {
-                    particleCount: Math.floor(count * particleRatio),
-                })
-            );
-        }
-
-        fire(0.25, {
-            spread: 26,
-            startVelocity: 55,
-        });
-
-        fire(0.2, {
-            spread: 60,
-        });
-
-        fire(0.35, {
-            spread: 100,
-            decay: 0.91,
-            scalar: 0.8,
-        });
-
-        fire(0.1, {
-            spread: 120,
-            startVelocity: 25,
-            decay: 0.92,
-            scalar: 1.2,
-        });
-
-        fire(0.1, {
-            spread: 120,
-            startVelocity: 45,
-        });
-    }
-
+    setTimeout(()=>{
+        window.location.href = "http://localhost:63342/NextTravel%20-%20FrontEnd/SuccessfulPayment.html?_ijt=b3de6svimqcd25h9lb4brb260r&_ij_reload=RELOAD_ON_SAVE";
+    },2000)
 </script>
-<!--Confetti JS.-->
-<script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.12.0/tsparticles.confetti.bundle.min.js"></script>
+
 
 </body>
 </html>

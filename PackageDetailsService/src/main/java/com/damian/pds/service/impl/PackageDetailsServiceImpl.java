@@ -109,9 +109,10 @@ public class PackageDetailsServiceImpl implements PackageDetailsService {
 
         }
         packageDetailsRepo.deleteById(s);
-        paymentsInterface.deletePaymentOnly(paymentsInterface.getPaymentBypID(s));
         userInterface.deletePID(uid,s);
         userInterface.deletePaymentsID(uid,paymentsInterface.getPaymentBypID(s));
+        paymentsInterface.deletePaymentOnly(paymentsInterface.getPaymentBypID(s));
+
         return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails Deleted Successfully!",null);
 
 

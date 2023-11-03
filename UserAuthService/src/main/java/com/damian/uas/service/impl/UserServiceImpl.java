@@ -291,12 +291,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public ResponseEntity<Response> deletePaymentsId(String uId, String pId) {
+        System.out.println("UAS about to delete the payment ID : ");
+        System.out.println("user ID : "+uId);
+        System.out.println("p ID : "+pId);
         Optional<User> user = userRepo.findById(uId);
         if(user.isEmpty()){
+            System.out.println("User not found!");
             return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "User not found!", null);
         }
+        System.out.println("User found!");
         user.get().getPaymentsIDList().remove(pId);
-        userRepo.save(user.get());
+        /*userRepo.save(user.get());*/
         return createAndSendResponse(HttpStatus.OK.value(), "User successfully updated!", null);
 
     }
